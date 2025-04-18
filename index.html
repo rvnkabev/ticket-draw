@@ -2,38 +2,74 @@
 <html>
 <head>
   <title>My Ticket System</title>
+  <style>
+    body {
+      font-size: 300%; /* 約等於原來的10倍 */
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+    button {
+      font-size: 100%;
+      margin: 20px;
+    }
+  </style>
 </head>
 <body>
   <h1>Welcome to the Ticket Draw Game!</h1>
   <p id="tickets">You currently have 0 tickets</p>
-  <button onclick="draw()">Draw Tickets!</button>
-  <button onclick="redeem()">Redeem Prize (Needs 10)</button>
+  <button onclick="draw()">Draw Ticket</button>
+  <br>
+  <button onclick="redeem(1)">Redeem Small Prize (-1)</button>
+  <button onclick="redeem(20)">Redeem Medium Prize (-20)</button>
+  <button onclick="redeem(100)">Redeem Big Prize (-100)</button>
+  <button onclick="customRedeem()">Redeem Mega Prize (custom)</button>
 
   <script>
-    // Store ticket count in browser's LocalStorage
     let tickets = parseInt(localStorage.getItem("tickets") || "0");
 
     function updateText() {
-      document.getElementById("tickets").innerText = "You currently have " + tickets + " tickets";
+      document.getElementById("tickets").innerText = "You currently have " + tickets + " ticket(s)";
     }
 
     function draw() {
-      let gain = Math.floor(Math.random() * 3) + 1; // Random 1 to 3
+      const rand = Math.random();
+      let gain;
+
+      if (rand < 2/7) {
+        gain = 0;
+      } else if (rand < 4/7) {
+        gain = 1;
+      } else if (rand < 6/7) {
+        gain = 2;
+      } else {
+        gain = 3;
+      }
+
       tickets += gain;
       localStorage.setItem("tickets", tickets);
       alert("You drew " + gain + " ticket(s)!");
       updateText();
     }
 
-    function redeem() {
-      if (tickets >= 10) {
-        tickets -= 10;
+    function redeem(cost) {
+      if (tickets >= cost) {
+        tickets -= cost;
         localStorage.setItem("tickets", tickets);
-        alert("Prize redeemed! You have " + tickets + " ticket(s) left.");
+        alert("Redeemed! You spent " + cost + " ticket(s).");
       } else {
-        alert("You need at least 10 tickets to redeem a prize!");
+        alert("Not enough tickets.");
       }
       updateText();
+    }
+
+    function customRedeem() {
+      let input = prompt("Enter ticket cost for Mega Prize:");
+      let cost = parseInt(input);
+      if (!isNaN(cost)) {
+        redeem(cost);
+      } else {
+        alert("Invalid number.");
+      }
     }
 
     updateText();
