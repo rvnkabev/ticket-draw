@@ -30,6 +30,14 @@
       width: 60px;
       font-size: 14px;
     }
+    #redeemOptions {
+      margin-top: 30px;
+      display: none;
+    }
+    .redeem-btn {
+      font-size: 70%;
+      margin: 10px;
+    }
   </style>
 </head>
 <body>
@@ -38,7 +46,15 @@
 
   <div>
     <button onclick="draw()">Draw Ticket</button>
-    <button onclick="redeemMenu()">Redeem</button>
+    <button onclick="showRedeem()">Redeem</button>
+  </div>
+
+  <div id="redeemOptions">
+    <button class="redeem-btn" onclick="redeem(1)">Small (-1)</button>
+    <button class="redeem-btn" onclick="redeem(20)">Medium (-20)</button>
+    <button class="redeem-btn" onclick="redeem(100)">Big (-100)</button>
+    <button class="redeem-btn" onclick="customRedeem()">Mega (Custom)</button>
+    <br><button onclick="hideRedeem()">Hide</button>
   </div>
 
   <div id="result">You currently have <span id="tickets">0</span> ticket(s).</div>
@@ -82,28 +98,19 @@
       }
     }
 
-    function redeemMenu() {
-      const choice = prompt("Choose reward:\n1 = Small (-1)\n2 = Medium (-20)\n3 = Big (-100)\n4 = Mega (custom)");
+    function customRedeem() {
+      let input = prompt("How many tickets to redeem?");
+      let value = parseInt(input);
+      if (!isNaN(value) && value > 0) redeem(value);
+      else updateDisplay("Invalid number.");
+    }
 
-      switch(choice) {
-        case "1":
-          redeem(1);
-          break;
-        case "2":
-          redeem(20);
-          break;
-        case "3":
-          redeem(100);
-          break;
-        case "4":
-          let input = prompt("Enter number of tickets to redeem:");
-          let custom = parseInt(input);
-          if (!isNaN(custom) && custom > 0) redeem(custom);
-          else updateDisplay("Invalid number.");
-          break;
-        default:
-          updateDisplay("Cancelled redeem.");
-      }
+    function showRedeem() {
+      document.getElementById("redeemOptions").style.display = "block";
+    }
+
+    function hideRedeem() {
+      document.getElementById("redeemOptions").style.display = "none";
     }
 
     function addOldTickets() {
@@ -111,7 +118,7 @@
       if (!isNaN(value) && value > 0) {
         tickets += value;
         localStorage.setItem("tickets", tickets);
-        updateDisplay("Imported <strong>" + value + "</strong> ticket(s) from past.");
+        updateDisplay("Imported <strong>" + value + "</strong> ticket(s).");
         document.getElementById("oldInput").value = '';
       } else {
         updateDisplay("Please enter a valid number.");
