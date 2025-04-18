@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Ticket System</title>
+</head>
+<body>
+  <h1>Welcome to the Ticket Draw Game!</h1>
+  <p id="tickets">You currently have 0 tickets</p>
+  <button onclick="draw()">Draw Tickets!</button>
+  <button onclick="redeem()">Redeem Prize (Needs 10)</button>
+
+  <script>
+    // Store ticket count in browser's LocalStorage
+    let tickets = parseInt(localStorage.getItem("tickets") || "0");
+
+    function updateText() {
+      document.getElementById("tickets").innerText = "You currently have " + tickets + " tickets";
+    }
+
+    function draw() {
+      let gain = Math.floor(Math.random() * 3) + 1; // Random 1 to 3
+      tickets += gain;
+      localStorage.setItem("tickets", tickets);
+      alert("You drew " + gain + " ticket(s)!");
+      updateText();
+    }
+
+    function redeem() {
+      if (tickets >= 10) {
+        tickets -= 10;
+        localStorage.setItem("tickets", tickets);
+        alert("Prize redeemed! You have " + tickets + " ticket(s) left.");
+      } else {
+        alert("You need at least 10 tickets to redeem a prize!");
+      }
+      updateText();
+    }
+
+    updateText();
+  </script>
+</body>
+</html>
