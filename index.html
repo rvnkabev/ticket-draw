@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <title>Slot Draw Game</title>
   <style>
+    html {
+      font-size: 250%;
+    }
     body {
       background: #111;
       color: white;
@@ -15,13 +18,12 @@
     .hidden { display: none; }
 
     .menu button {
-      padding: 15px 30px;
-      font-size: 1.2em;
-      margin: 10px;
+      padding: 0.5em 1em;
+      margin: 0.5em;
       background: #444;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 0.3em;
       cursor: pointer;
     }
 
@@ -31,8 +33,8 @@
     }
 
     .menu p {
-      margin-top: 10px;
-      font-size: 1em;
+      margin-top: 0.5em;
+      font-size: 0.8em;
       color: #ccc;
     }
 
@@ -41,133 +43,140 @@
       bottom: 5px;
       right: 10px;
       opacity: 0.3;
-      font-size: 12px;
+      font-size: 0.4em;
     }
 
     .import-box input {
-      width: 60px;
-      font-size: 12px;
+      width: 2em;
+      font-size: 0.4em;
     }
 
-    .reel, .single-reel {
-      width: 70px;
-      height: 70px;
-      font-size: 2em;
+    .reel {
+      width: 2.8em;
+      height: 2.8em;
+      font-size: 1.5em;
       background: #222;
-      line-height: 70px;
-      border-radius: 10px;
-      border: 2px solid #666;
-      box-shadow: 0 0 6px #444;
-      margin: 5px auto;
+      line-height: 2.8em;
+      border-radius: 0.3em;
+      border: 0.08em solid #666;
+      box-shadow: 0 0 0.3em #444;
+      text-align: center;
     }
 
     .reels {
       display: flex;
       justify-content: center;
-      gap: 4px;
-      flex-wrap: wrap;
+      gap: 0.4em;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin-top: 1em;
     }
 
     .lever {
-      width: 20px;
-      height: 100px;
+      width: 0.8em;
+      height: 3em;
       background: linear-gradient(to bottom, silver, gray);
-      border-radius: 10px;
+      border-radius: 0.3em;
       position: relative;
       cursor: pointer;
       transition: transform 0.3s ease;
-      margin: 0 auto;
+      margin-left: 1em;
     }
 
     .lever-ball {
       position: absolute;
-      bottom: -25px;
+      bottom: -0.9em;
       left: 50%;
       transform: translateX(-50%);
-      width: 40px;
-      height: 40px;
+      width: 1.4em;
+      height: 1.4em;
       background: red;
       border-radius: 50%;
-      border: 3px solid #fff;
+      border: 0.15em solid #fff;
     }
 
     .lever.down {
       transform: rotate(30deg);
     }
 
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 1em;
+    .redeem-btn {
+      padding: 0.4em 1em;
+      margin: 0.3em;
     }
 
-    .redeem-btn {
-      padding: 8px 18px;
+    .slot-flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1em;
     }
   </style>
 </head>
 <body>
 
-  <!-- Home Page -->
+  <!-- Main Menu -->
   <div id="menu" class="menu">
-    <h1>Welcome to Slot Draw</h1>
-    <p>You currently have <strong id="homeTickets">0</strong> ticket(s)</p>
+    <h1>Slot Draw</h1>
+    <p>You have <strong id="homeTickets">0</strong> ticket(s)</p>
     <button onclick="showSection('single')">Single Draw</button>
     <button onclick="showFiveStage()">Five Draw</button>
     <button onclick="showSection('redeem')">Redeem</button>
   </div>
 
-  <!-- Hidden ticket import -->
+  <!-- Import Ticket (Hidden Box) -->
   <div class="import-box">
-    <label>Import tickets:</label>
-    <input id="importInput" type="number" placeholder="0" />
+    Import: <input id="importInput" type="number" placeholder="0" />
     <button onclick="addImportedTickets()">Add</button>
   </div>
 
   <!-- Single Draw -->
   <div id="single" class="hidden">
     <h2>Single Draw</h2>
-    <div class="reel single-reel" id="singleReel">🍒</div>
-    <div class="lever" id="lever" onclick="pullSingle()"><div class="lever-ball"></div></div>
-    <div id="singleResult"></div>
-    <button onclick="showSection('menu')">Back to Home</button>
+    <div class="slot-flex">
+      <div class="reel" id="singleReel">🍒</div>
+      <div class="lever" id="lever" onclick="pullSingle()">
+        <div class="lever-ball"></div>
+      </div>
+    </div>
+    <div id="singleResult" style="margin-top:0.5em;"></div>
+    <button onclick="showSection('menu')">Back</button>
   </div>
 
   <!-- Five Draw -->
   <div id="fiveStage" class="hidden">
     <h2>Five Draw</h2>
-    <div class="reels" style="margin-top:20px;">
+    <div class="reels">
       <div class="reel" id="fs0">🍒</div>
       <div class="reel" id="fs1">🍒</div>
       <div class="reel" id="fs2">🍒</div>
       <div class="reel" id="fs3">🍒</div>
       <div class="reel" id="fs4">🍒</div>
     </div>
-    <div id="fiveStageResult" style="margin-top:20px; font-size:1.1em;"></div>
-    <button onclick="returnToMenu()">Back to Home</button>
+    <div id="fiveStageResult" style="margin-top:1em;"></div>
+    <button onclick="returnToMenu()">Back</button>
   </div>
 
   <!-- Redeem -->
   <div id="redeem" class="hidden">
-    <h2>Redeem Tickets</h2>
-    <p>You currently have <strong id="ticketCount">0</strong> ticket(s)</p>
+    <h2>Redeem</h2>
+    <p>You have <strong id="ticketCount">0</strong> ticket(s)</p>
     <button class="redeem-btn" onclick="redeem(1)">Small (-1)</button>
     <button class="redeem-btn" onclick="redeem(20)">Medium (-20)</button>
     <button class="redeem-btn" onclick="redeem(100)">Big (-100)</button>
     <button class="redeem-btn" onclick="customRedeem()">Custom</button>
     <div id="redeemResult"></div>
-    <button onclick="showSection('menu')">Back to Home</button>
+    <button onclick="showSection('menu')">Back</button>
   </div>
 
-  <!-- JavaScript -->
+  <!-- JS -->
   <script>
     let tickets = parseInt(localStorage.getItem("tickets") || "0");
 
     function getTicketByChance() {
       const r = Math.random();
-      if (r < 2/7) return 0;
-      if (r < 4/7) return 1;
-      if (r < 6/7) return 2;
+      if (r < 2 / 7) return 0;
+      if (r < 4 / 7) return 1;
+      if (r < 6 / 7) return 2;
       return 3;
     }
 
@@ -203,7 +212,7 @@
       setTimeout(() => lever.classList.remove("down"), 300);
       let count = 0;
       const interval = setInterval(() => {
-        reel.innerText = ["7","🍒","🍋","🔔","💎","⭐"][Math.floor(Math.random()*6)];
+        reel.innerText = ["7", "🍒", "🍋", "🔔", "💎", "⭐"][Math.floor(Math.random() * 6)];
         count++;
         if (count >= 20) {
           clearInterval(interval);
@@ -218,8 +227,8 @@
 
     function showFiveStage() {
       showSection("fiveStage");
-      const symbols = ["7","🍒","🍋","🔔","💎","⭐"];
-      const reels = [0,1,2,3,4].map(i => document.getElementById("fs" + i));
+      const symbols = ["7", "🍒", "🍋", "🔔", "💎", "⭐"];
+      const reels = [0, 1, 2, 3, 4].map(i => document.getElementById("fs" + i));
       const resultBox = document.getElementById("fiveStageResult");
       resultBox.innerHTML = "Starting draw...";
       let total = 0;
@@ -260,9 +269,9 @@
       if (tickets >= amount) {
         tickets -= amount;
         localStorage.setItem("tickets", tickets);
-        msg.innerHTML = `Successfully redeemed ${amount} ticket(s)!`;
+        msg.innerHTML = `Redeemed ${amount} ticket(s)!`;
       } else {
-        msg.innerHTML = `Not enough tickets to redeem ${amount}.`;
+        msg.innerHTML = `Not enough tickets.`;
       }
       updateAllDisplays();
     }
