@@ -17,7 +17,8 @@
 
     .hidden { display: none; }
 
-    .menu button {
+    button {
+      font-size: 1rem;
       padding: 0.5em 1em;
       margin: 0.5em;
       background: #444;
@@ -27,7 +28,7 @@
       cursor: pointer;
     }
 
-    .menu button:hover {
+    button:hover {
       background: gold;
       color: black;
     }
@@ -99,11 +100,6 @@
       transform: rotate(30deg);
     }
 
-    .redeem-btn {
-      padding: 0.4em 1em;
-      margin: 0.3em;
-    }
-
     .slot-flex {
       display: flex;
       justify-content: center;
@@ -123,7 +119,7 @@
     <button onclick="showSection('redeem')">Redeem</button>
   </div>
 
-  <!-- Import Ticket (Hidden Box) -->
+  <!-- Import Ticket -->
   <div class="import-box">
     Import: <input id="importInput" type="number" placeholder="0" />
     <button onclick="addImportedTickets()">Add</button>
@@ -160,15 +156,15 @@
   <div id="redeem" class="hidden">
     <h2>Redeem</h2>
     <p>You have <strong id="ticketCount">0</strong> ticket(s)</p>
-    <button class="redeem-btn" onclick="redeem(1)">Small (-1)</button>
-    <button class="redeem-btn" onclick="redeem(20)">Medium (-20)</button>
-    <button class="redeem-btn" onclick="redeem(100)">Big (-100)</button>
-    <button class="redeem-btn" onclick="customRedeem()">Custom</button>
+    <button onclick="redeem(1)">Small (-1)</button>
+    <button onclick="redeem(20)">Medium (-20)</button>
+    <button onclick="redeem(100)">Big (-100)</button>
+    <button onclick="customRedeem()">Custom</button>
     <div id="redeemResult"></div>
     <button onclick="showSection('menu')">Back</button>
   </div>
 
-  <!-- JS -->
+  <!-- Script -->
   <script>
     let tickets = parseInt(localStorage.getItem("tickets") || "0");
 
