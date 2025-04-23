@@ -1,131 +1,214 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-  <title>Ticket Game</title>
+  <meta charset="UTF-8" />
+  <title>拉桿抽獎機</title>
   <style>
-    body {
-      font-size: 250%;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 60px 20px;
+    body { background: #111; color: white; font-family: sans-serif; text-align: center; padding: 30px; }
+    .hidden { display: none; }
+    .menu button {
+      padding: 15px 30px; font-size: 1.2em; margin: 10px;
+      background: #444; color: white; border: none; border-radius: 10px; cursor: pointer;
     }
-    button {
-      font-size: 90%;
-      margin: 20px;
-      padding: 10px 30px;
+    .menu button:hover { background: gold; color: black; }
+    .menu p { margin-top: 10px; font-size: 1em; color: #ccc; }
+    .import-box {
+      position: fixed; bottom: 5px; right: 10px;
+      opacity: 0.3; font-size: 12px;
     }
-    #result {
-      margin-top: 50px;
-      font-size: 70%;
-      color: #333;
+    .import-box input { width: 60px; font-size: 12px; }
+
+    .reel, .single-reel {
+      width: 70px; height: 70px; font-size: 2em;
+      background: #222; line-height: 70px; border-radius: 10px;
+      border: 2px solid #666; box-shadow: 0 0 6px #444; margin: 5px auto;
     }
-    #oldTicketArea {
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      font-size: 14px;
-      opacity: 0.5;
+    .reels { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+
+    .lever {
+      width: 20px; height: 100px;
+      background: linear-gradient(to bottom, silver, gray);
+      border-radius: 10px; position: relative; cursor: pointer;
+      transition: transform 0.3s ease; margin: 0 auto;
     }
-    #oldTicketArea input {
-      width: 60px;
-      font-size: 14px;
+    .lever-ball {
+      position: absolute; bottom: -25px; left: 50%;
+      transform: translateX(-50%); width: 40px; height: 40px;
+      background: red; border-radius: 50%; border: 3px solid #fff;
     }
-    #redeemOptions {
-      margin-top: 30px;
-      display: none;
-    }
-    .redeem-btn {
-      font-size: 70%;
-      margin: 10px;
-    }
+    .lever.down { transform: rotate(30deg); }
+
+    button { margin: 10px; padding: 10px 20px; font-size: 1em; }
+    .redeem-btn { padding: 8px 18px; }
   </style>
 </head>
 <body>
 
-  <h1>Ticket Game</h1>
-
-  <div>
-    <button onclick="draw()">Draw Ticket</button>
-    <button onclick="showRedeem()">Redeem</button>
+  <!-- 首頁 -->
+  <div id="menu" class="menu">
+    <h1>歡迎來到拉桿抽獎機</h1>
+    <p>你目前有 <strong id="homeTickets">0</strong> 張票券</p>
+    <button onclick="showSection('single')">一抽</button>
+    <button onclick="showFiveStage()">五連抽</button>
+    <button onclick="showSection('redeem')">Redeem</button>
   </div>
 
-  <div id="redeemOptions">
+  <!-- 導入票券欄（低調） -->
+  <div class="import-box">
+    <label>導入票券：</label>
+    <input id="importInput" type="number" placeholder="0" />
+    <button onclick="addImportedTickets()">加</button>
+  </div>
+
+  <!-- 單抽 -->
+  <div id="single" class="hidden">
+    <h2>單抽轉盤</h2>
+    <div class="reel single-reel" id="singleReel">🍒</div>
+    <div class="lever" id="lever" onclick="pullSingle()"><div class="lever-ball"></div></div>
+    <div id="singleResult"></div>
+    <button onclick="showSection('menu')">返回首頁</button>
+  </div>
+
+  <!-- 五連抽 -->
+  <div id="fiveStage" class="hidden">
+    <h2>五連抽演出</h2>
+    <div class="reels" style="margin-top:20px;">
+      <div class="reel" id="fs0">🍒</div>
+      <div class="reel" id="fs1">🍒</div>
+      <div class="reel" id="fs2">🍒</div>
+      <div class="reel" id="fs3">🍒</div>
+      <div class="reel" id="fs4">🍒</div>
+    </div>
+    <div id="fiveStageResult" style="margin-top:20px; font-size:1.1em;"></div>
+    <button onclick="returnToMenu()">返回首頁</button>
+  </div>
+
+  <!-- 票券兌換 -->
+  <div id="redeem" class="hidden">
+    <h2>票券兌換</h2>
+    <p>你目前有 <strong id="ticketCount">0</strong> 張票券</p>
     <button class="redeem-btn" onclick="redeem(1)">Small (-1)</button>
     <button class="redeem-btn" onclick="redeem(20)">Medium (-20)</button>
     <button class="redeem-btn" onclick="redeem(100)">Big (-100)</button>
-    <button class="redeem-btn" onclick="customRedeem()">Mega (Custom)</button>
-    <br><button onclick="hideRedeem()">Hide</button>
+    <button class="redeem-btn" onclick="customRedeem()">Custom</button>
+    <div id="redeemResult"></div>
+    <button onclick="showSection('menu')">返回首頁</button>
   </div>
 
-  <div id="result">You currently have <span id="tickets">0</span> ticket(s).</div>
-
-  <div id="oldTicketArea">
-    Previous tickets: 
-    <input type="number" id="oldInput" placeholder="0">
-    <button onclick="addOldTickets()">Add</button>
-  </div>
-
+  <!-- 功能腳本 -->
   <script>
     let tickets = parseInt(localStorage.getItem("tickets") || "0");
 
-    function updateDisplay(msg = "") {
-      document.getElementById("tickets").innerText = tickets;
-      if (msg) {
-        document.getElementById("result").innerHTML = msg + "<br>You currently have <span id='tickets'>" + tickets + "</span> ticket(s).";
+    function getTicketByChance() {
+      const r = Math.random();
+      if (r < 2/7) return 0;
+      if (r < 4/7) return 1;
+      if (r < 6/7) return 2;
+      return 3;
+    }
+
+    function updateAllDisplays() {
+      document.getElementById("homeTickets").innerText = tickets;
+      document.getElementById("ticketCount").innerText = tickets;
+    }
+
+    function showSection(id) {
+      ["menu", "single", "fiveStage", "redeem"].forEach(sec => {
+        document.getElementById(sec).classList.add("hidden");
+      });
+      document.getElementById(id).classList.remove("hidden");
+      updateAllDisplays();
+    }
+
+    function addImportedTickets() {
+      const val = parseInt(document.getElementById("importInput").value);
+      if (!isNaN(val) && val > 0) {
+        tickets += val;
+        localStorage.setItem("tickets", tickets);
+        updateAllDisplays();
+        document.getElementById("importInput").value = "";
       }
     }
 
-    function draw() {
-      const r = Math.random();
-      let gain = 0;
-      if (r < 2/7) gain = 0;
-      else if (r < 4/7) gain = 1;
-      else if (r < 6/7) gain = 2;
-      else gain = 3;
+    function pullSingle() {
+      const reel = document.getElementById("singleReel");
+      const lever = document.getElementById("lever");
+      const result = document.getElementById("singleResult");
+      result.innerHTML = "";
+      lever.classList.add("down");
+      setTimeout(() => lever.classList.remove("down"), 300);
+      let count = 0;
+      const interval = setInterval(() => {
+        reel.innerText = ["7","🍒","🍋","🔔","💎","⭐"][Math.floor(Math.random()*6)];
+        count++;
+        if (count >= 20) {
+          clearInterval(interval);
+          const gain = getTicketByChance();
+          tickets += gain;
+          localStorage.setItem("tickets", tickets);
+          result.innerHTML = `你獲得了 <strong>${gain}</strong> 張票券！`;
+          updateAllDisplays();
+        }
+      }, 100);
+    }
 
-      tickets += gain;
-      localStorage.setItem("tickets", tickets);
-      updateDisplay("You drew <strong>" + gain + "</strong> ticket(s)!");
+    function showFiveStage() {
+      showSection("fiveStage");
+      const symbols = ["7","🍒","🍋","🔔","💎","⭐"];
+      const reels = [0,1,2,3,4].map(i => document.getElementById("fs" + i));
+      const resultBox = document.getElementById("fiveStageResult");
+      resultBox.innerHTML = "開始抽獎...";
+      let total = 0, current = 0;
+
+      function spinOne(index) {
+        if (index >= 5) {
+          localStorage.setItem("tickets", tickets);
+          resultBox.innerHTML += `<br><strong>總共獲得 ${total} 張票券！</strong>`;
+          updateAllDisplays();
+          return;
+        }
+        let count = 0;
+        const spin = setInterval(() => {
+          reels[index].innerText = symbols[Math.floor(Math.random() * symbols.length)];
+          count++;
+          if (count >= 20) {
+            clearInterval(spin);
+            const final = symbols[Math.floor(Math.random() * symbols.length)];
+            reels[index].innerText = final;
+            const gain = getTicketByChance();
+            tickets += gain;
+            total += gain;
+            resultBox.innerHTML += `<br>第 ${index + 1} 抽：${final} → +${gain}票`;
+            setTimeout(() => spinOne(index + 1), 500);
+          }
+        }, 50);
+      }
+
+      spinOne(0);
+    }
+
+    function returnToMenu() {
+      showSection("menu");
     }
 
     function redeem(amount) {
+      const msg = document.getElementById("redeemResult");
       if (tickets >= amount) {
         tickets -= amount;
         localStorage.setItem("tickets", tickets);
-        updateDisplay("Redeemed <strong>" + amount + "</strong> ticket(s)!");
+        msg.innerHTML = `成功兌換 ${amount} 張票券！`;
       } else {
-        updateDisplay("Not enough tickets to redeem <strong>" + amount + "</strong>.");
+        msg.innerHTML = `票券不足，無法兌換 ${amount} 張。`;
       }
+      updateAllDisplays();
     }
 
     function customRedeem() {
-      let input = prompt("How many tickets to redeem?");
-      let value = parseInt(input);
-      if (!isNaN(value) && value > 0) redeem(value);
-      else updateDisplay("Invalid number.");
+      let v = parseInt(prompt("請輸入要兌換的票券數："));
+      if (!isNaN(v) && v > 0) redeem(v);
     }
 
-    function showRedeem() {
-      document.getElementById("redeemOptions").style.display = "block";
-    }
-
-    function hideRedeem() {
-      document.getElementById("redeemOptions").style.display = "none";
-    }
-
-    function addOldTickets() {
-      let value = parseInt(document.getElementById("oldInput").value);
-      if (!isNaN(value) && value > 0) {
-        tickets += value;
-        localStorage.setItem("tickets", tickets);
-        updateDisplay("Imported <strong>" + value + "</strong> ticket(s).");
-        document.getElementById("oldInput").value = '';
-      } else {
-        updateDisplay("Please enter a valid number.");
-      }
-    }
-
-    updateDisplay();
+    updateAllDisplays();
   </script>
 
 </body>
