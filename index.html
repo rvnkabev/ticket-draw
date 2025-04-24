@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <title>Slot Draw Game</title>
   <style>
-    html {
-      font-size: 250%;
-    }
+    html { font-size: 250%; }
     body {
       background: #111;
       color: white;
@@ -96,9 +94,7 @@
       border: 0.15em solid #fff;
     }
 
-    .lever.down {
-      transform: rotate(30deg);
-    }
+    .lever.down { transform: rotate(30deg); }
 
     .slot-flex {
       display: flex;
@@ -110,7 +106,6 @@
 </head>
 <body>
 
-  <!-- Main Menu -->
   <div id="menu" class="menu">
     <h1>Slot Draw</h1>
     <p>You have <strong id="homeTickets">0</strong> ticket(s)</p>
@@ -119,17 +114,15 @@
     <button onclick="showSection('redeem')">Redeem</button>
   </div>
 
-  <!-- Import Ticket -->
   <div class="import-box">
     Import: <input id="importInput" type="number" placeholder="0" />
     <button onclick="addImportedTickets()">Add</button>
   </div>
 
-  <!-- Single Draw -->
   <div id="single" class="hidden">
     <h2>Single Draw</h2>
     <div class="slot-flex">
-      <div class="reel" id="singleReel">🍒</div>
+      <div class="reel" id="singleReel">💎</div>
       <div class="lever" id="lever" onclick="pullSingle()">
         <div class="lever-ball"></div>
       </div>
@@ -138,21 +131,19 @@
     <button onclick="showSection('menu')">Back</button>
   </div>
 
-  <!-- Five Draw -->
   <div id="fiveStage" class="hidden">
     <h2>Five Draw</h2>
     <div class="reels">
-      <div class="reel" id="fs0">🍒</div>
-      <div class="reel" id="fs1">🍒</div>
-      <div class="reel" id="fs2">🍒</div>
-      <div class="reel" id="fs3">🍒</div>
-      <div class="reel" id="fs4">🍒</div>
+      <div class="reel" id="fs0">💎</div>
+      <div class="reel" id="fs1">💎</div>
+      <div class="reel" id="fs2">💎</div>
+      <div class="reel" id="fs3">💎</div>
+      <div class="reel" id="fs4">💎</div>
     </div>
     <div id="fiveStageResult" style="margin-top:1em;"></div>
     <button onclick="returnToMenu()">Back</button>
   </div>
 
-  <!-- Redeem -->
   <div id="redeem" class="hidden">
     <h2>Redeem</h2>
     <p>You have <strong id="ticketCount">0</strong> ticket(s)</p>
@@ -164,17 +155,18 @@
     <button onclick="showSection('menu')">Back</button>
   </div>
 
-  <!-- Script -->
   <script>
     let tickets = parseInt(localStorage.getItem("tickets") || "0");
-
-    function getTicketByChance() {
-      const r = Math.random();
-      if (r < 2 / 7) return 0;
-      if (r < 4 / 7) return 1;
-      if (r < 6 / 7) return 2;
-      return 3;
-    }
+    const symbols = ["🍋", "🍒", "🍇", "🍉", "🔔", "⭐", "💎"];
+    const symbolToTickets = {
+      "🍋": 0,
+      "🍒": 1,
+      "🍇": 1,
+      "🍉": 2,
+      "🔔": 2,
+      "⭐": 3,
+      "💎": 3
+    };
 
     function updateAllDisplays() {
       document.getElementById("homeTickets").innerText = tickets;
@@ -208,14 +200,16 @@
       setTimeout(() => lever.classList.remove("down"), 300);
       let count = 0;
       const interval = setInterval(() => {
-        reel.innerText = ["7", "🍒", "🍋", "🔔", "💎", "⭐"][Math.floor(Math.random() * 6)];
+        reel.innerText = symbols[Math.floor(Math.random() * symbols.length)];
         count++;
         if (count >= 20) {
           clearInterval(interval);
-          const gain = getTicketByChance();
+          const finalSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+          reel.innerText = finalSymbol;
+          const gain = symbolToTickets[finalSymbol];
           tickets += gain;
           localStorage.setItem("tickets", tickets);
-          result.innerHTML = `You got <strong>${gain}</strong> ticket(s)!`;
+          result.innerHTML = `You got <strong>${gain}</strong> ticket(s) with ${finalSymbol}`;
           updateAllDisplays();
         }
       }, 100);
@@ -223,7 +217,6 @@
 
     function showFiveStage() {
       showSection("fiveStage");
-      const symbols = ["7", "🍒", "🍋", "🔔", "💎", "⭐"];
       const reels = [0, 1, 2, 3, 4].map(i => document.getElementById("fs" + i));
       const resultBox = document.getElementById("fiveStageResult");
       resultBox.innerHTML = "Starting draw...";
@@ -244,7 +237,7 @@
             clearInterval(spin);
             const final = symbols[Math.floor(Math.random() * symbols.length)];
             reels[index].innerText = final;
-            const gain = getTicketByChance();
+            const gain = symbolToTickets[final];
             tickets += gain;
             total += gain;
             resultBox.innerHTML += `<br>Draw ${index + 1}: ${final} → +${gain} ticket(s)`;
@@ -279,6 +272,5 @@
 
     updateAllDisplays();
   </script>
-
 </body>
 </html>
