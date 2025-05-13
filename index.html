@@ -25,7 +25,6 @@
       border-radius: 0.3em;
       cursor: pointer;
     }
-
     button:hover {
       background: gold;
       color: black;
@@ -44,7 +43,6 @@
       opacity: 0.3;
       font-size: 0.4em;
     }
-
     .import-box input {
       width: 2em;
       font-size: 0.4em;
@@ -81,7 +79,6 @@
       transition: transform 0.3s ease;
       margin-left: 1em;
     }
-
     .lever-ball {
       position: absolute;
       bottom: -0.9em;
@@ -93,7 +90,6 @@
       border-radius: 50%;
       border: 0.15em solid #fff;
     }
-
     .lever.down { transform: rotate(30deg); }
 
     .slot-flex {
@@ -106,19 +102,26 @@
 </head>
 <body>
 
+  <!-- ──────────── Menu ──────────── -->
   <div id="menu" class="menu">
     <h1>Slot Draw</h1>
     <p>You have <strong id="homeTickets">0</strong> ticket(s)</p>
+
     <button onclick="showSection('single')">Single Draw</button>
+    <button onclick="showThreeStage()">Three Draw</button>
     <button onclick="showFiveStage()">Five Draw</button>
     <button onclick="showSection('redeem')">Redeem</button>
+
+    <p>Import extra tickets at bottom-right if needed</p>
   </div>
 
+  <!-- ──────────── Import box ──────────── -->
   <div class="import-box">
     Import: <input id="importInput" type="number" placeholder="0" />
     <button onclick="addImportedTickets()">Add</button>
   </div>
 
+  <!-- ──────────── Single Draw ──────────── -->
   <div id="single" class="hidden">
     <h2>Single Draw</h2>
     <div class="slot-flex">
@@ -131,6 +134,19 @@
     <button onclick="showSection('menu')">Back</button>
   </div>
 
+  <!-- ──────────── Three Draw ──────────── -->
+  <div id="threeStage" class="hidden">
+    <h2>Three Draw</h2>
+    <div class="reels">
+      <div class="reel" id="ts0">💎</div>
+      <div class="reel" id="ts1">💎</div>
+      <div class="reel" id="ts2">💎</div>
+    </div>
+    <div id="threeStageResult" style="margin-top:1em;"></div>
+    <button onclick="returnToMenu()">Back</button>
+  </div>
+
+  <!-- ──────────── Five Draw ──────────── -->
   <div id="fiveStage" class="hidden">
     <h2>Five Draw</h2>
     <div class="reels">
@@ -144,6 +160,7 @@
     <button onclick="returnToMenu()">Back</button>
   </div>
 
+  <!-- ──────────── Redeem ──────────── -->
   <div id="redeem" class="hidden">
     <h2>Redeem</h2>
     <p>You have <strong id="ticketCount">0</strong> ticket(s)</p>
@@ -151,36 +168,36 @@
     <button onclick="redeem(20)">Medium (-20)</button>
     <button onclick="redeem(100)">Big (-100)</button>
     <button onclick="customRedeem()">Custom</button>
-    <div id="redeemResult"></div>
+    <div id="redeemResult" style="margin-top:0.5em;"></div>
     <button onclick="showSection('menu')">Back</button>
   </div>
 
+  <!-- ──────────── Script ──────────── -->
   <script>
+    /* ─── Initial data ─── */
     let tickets = parseInt(localStorage.getItem("tickets") || "0");
     const symbols = ["🍋", "🍒", "🍇", "🍉", "🔔", "⭐", "💎"];
     const symbolToTickets = {
-      "🍋": 0,
-      "🍒": 1,
-      "🍇": 1,
-      "🍉": 2,
-      "🔔": 2,
-      "⭐": 3,
-      "💎": 3
+      "🍋": 0,  "🍒": 1,  "🍇": 1,
+      "🍉": 2,  "🔔": 2,
+      "⭐": 3,  "💎": 3
     };
 
+    /* ─── UI helpers ─── */
     function updateAllDisplays() {
       document.getElementById("homeTickets").innerText = tickets;
       document.getElementById("ticketCount").innerText = tickets;
     }
-
     function showSection(id) {
-      ["menu", "single", "fiveStage", "redeem"].forEach(sec => {
+      ["menu","single","threeStage","fiveStage","redeem"].forEach(sec=>{
         document.getElementById(sec).classList.add("hidden");
       });
       document.getElementById(id).classList.remove("hidden");
       updateAllDisplays();
     }
+    function returnToMenu(){ showSection("menu"); }
 
+    /* ─── Import ─── */
     function addImportedTickets() {
       const val = parseInt(document.getElementById("importInput").value);
       if (!isNaN(val) && val > 0) {
@@ -191,20 +208,21 @@
       }
     }
 
+    /* ─── Single draw ─── */
     function pullSingle() {
       const reel = document.getElementById("singleReel");
       const lever = document.getElementById("lever");
       const result = document.getElementById("singleResult");
       result.innerHTML = "";
       lever.classList.add("down");
-      setTimeout(() => lever.classList.remove("down"), 300);
+      setTimeout(()=>lever.classList.remove("down"),300);
+
       let count = 0;
-      const interval = setInterval(() => {
-        reel.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-        count++;
-        if (count >= 20) {
+      const interval = setInterval(()=>{
+        reel.innerText = symbols[Math.floor(Math.random()*symbols.length)];
+        if (++count >= 20){
           clearInterval(interval);
-          const finalSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+          const finalSymbol = symbols[Math.floor(Math.random()*symbols.length)];
           reel.innerText = finalSymbol;
           const gain = symbolToTickets[finalSymbol];
           tickets += gain;
@@ -212,65 +230,64 @@
           result.innerHTML = `You got <strong>${gain}</strong> ticket(s) with ${finalSymbol}`;
           updateAllDisplays();
         }
-      }, 100);
+      },100);
     }
 
-    function showFiveStage() {
-      showSection("fiveStage");
-      const reels = [0, 1, 2, 3, 4].map(i => document.getElementById("fs" + i));
-      const resultBox = document.getElementById("fiveStageResult");
+    /* ─── Parametric multi draw ─── */
+    function multiDraw(stageId, reelPrefix, draws){
+      showSection(stageId);
+      const reels = [...Array(draws)].map((_,i)=>document.getElementById(reelPrefix+i));
+      const resultBox = document.getElementById(stageId+"Result");
       resultBox.innerHTML = "Starting draw...";
       let total = 0;
 
-      function spinOne(index) {
-        if (index >= 5) {
+      function spinOne(index){
+        if(index>=draws){
           localStorage.setItem("tickets", tickets);
           resultBox.innerHTML += `<br><strong>Total: ${total} ticket(s)!</strong>`;
           updateAllDisplays();
           return;
         }
-        let count = 0;
-        const spin = setInterval(() => {
-          reels[index].innerText = symbols[Math.floor(Math.random() * symbols.length)];
-          count++;
-          if (count >= 20) {
+        let cnt = 0;
+        const spin = setInterval(()=>{
+          reels[index].innerText = symbols[Math.floor(Math.random()*symbols.length)];
+          if(++cnt>=20){
             clearInterval(spin);
-            const final = symbols[Math.floor(Math.random() * symbols.length)];
+            const final = symbols[Math.floor(Math.random()*symbols.length)];
             reels[index].innerText = final;
             const gain = symbolToTickets[final];
             tickets += gain;
             total += gain;
-            resultBox.innerHTML += `<br>Draw ${index + 1}: ${final} → +${gain} ticket(s)`;
-            setTimeout(() => spinOne(index + 1), 500);
+            resultBox.innerHTML += `<br>Draw ${index+1}: ${final} → +${gain}`;
+            setTimeout(()=>spinOne(index+1),500);
           }
-        }, 50);
+        },50);
       }
-
       spinOne(0);
     }
 
-    function returnToMenu() {
-      showSection("menu");
-    }
+    /* ─── Three draw & Five draw wrappers ─── */
+    function showThreeStage(){ multiDraw("threeStage","ts",3); }
+    function showFiveStage(){ multiDraw("fiveStage","fs",5); }
 
-    function redeem(amount) {
+    /* ─── Redeem ─── */
+    function redeem(amount){
       const msg = document.getElementById("redeemResult");
-      if (tickets >= amount) {
+      if(tickets>=amount){
         tickets -= amount;
         localStorage.setItem("tickets", tickets);
         msg.innerHTML = `Redeemed ${amount} ticket(s)!`;
-      } else {
+      }else{
         msg.innerHTML = `Not enough tickets.`;
       }
       updateAllDisplays();
     }
-
-    function customRedeem() {
+    function customRedeem(){
       let v = parseInt(prompt("How many tickets to redeem?"));
-      if (!isNaN(v) && v > 0) redeem(v);
+      if(!isNaN(v) && v>0) redeem(v);
     }
 
-    updateAllDisplays();
+    updateAllDisplays();  // initial render
   </script>
 </body>
 </html>
