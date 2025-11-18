@@ -164,11 +164,8 @@
   <div id="redeem" class="hidden">
     <h2>Redeem</h2>
     <p>You have <strong id="ticketCount">0</strong> ticket(s)</p>
-    <!-- 新增了 -5 跟 -60 的按鈕 -->
     <button onclick="redeem(1)">Small (-1)</button>
-    <button onclick="redeem(5)">x5 (-5)</button>
     <button onclick="redeem(20)">Medium (-20)</button>
-    <button onclick="redeem(60)">x60 (-60)</button>
     <button onclick="redeem(100)">Big (-100)</button>
     <button onclick="customRedeem()">Custom</button>
     <div id="redeemResult" style="margin-top:0.5em;"></div>
@@ -290,7 +287,36 @@
       if(!isNaN(v) && v>0) redeem(v);
     }
 
-    updateAllDisplays();  // initial render
+    /* ─── URL auto-redeem ─── */
+    function handleUrlRedeem(){
+      const params = new URLSearchParams(window.location.search);
+      let redeemParam = params.get("redeem");
+      if(!redeemParam) return;
+
+      redeemParam = redeemParam.toString().trim().toLowerCase();
+      let amt = 0;
+
+      // 支援文字及數字
+      if(redeemParam === "small") {
+        amt = 1;
+      } else if(redeemParam === "medium") {
+        amt = 20;
+      } else if(redeemParam === "big") {
+        amt = 100;
+      } else {
+        amt = parseInt(redeemParam, 10);
+      }
+
+      if(isNaN(amt) || amt <= 0) return;
+
+      // 顯示 Redeem 畫面並執行
+      showSection("redeem");
+      redeem(amt);
+    }
+
+    // initial render + URL 行為
+    updateAllDisplays();
+    handleUrlRedeem();
   </script>
 </body>
 </html>
