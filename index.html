@@ -110,6 +110,7 @@
     <button onclick="showSection('single')">Single Draw</button>
     <button onclick="showThreeStage()">Three Draw</button>
     <button onclick="showFiveStage()">Five Draw</button>
+    <button onclick="showSixStage()">Six Draw</button>
     <button onclick="showSection('redeem')">Redeem</button>
 
     <p>Import extra tickets at bottom-right if needed</p>
@@ -160,6 +161,21 @@
     <button onclick="returnToMenu()">Back</button>
   </div>
 
+  <!-- ──────────── Six Draw ──────────── -->
+  <div id="sixStage" class="hidden">
+    <h2>Six Draw</h2>
+    <div class="reels">
+      <div class="reel" id="ss0">💎</div>
+      <div class="reel" id="ss1">💎</div>
+      <div class="reel" id="ss2">💎</div>
+      <div class="reel" id="ss3">💎</div>
+      <div class="reel" id="ss4">💎</div>
+      <div class="reel" id="ss5">💎</div>
+    </div>
+    <div id="sixStageResult" style="margin-top:1em;"></div>
+    <button onclick="returnToMenu()">Back</button>
+  </div>
+
   <!-- ──────────── Redeem ──────────── -->
   <div id="redeem" class="hidden">
     <h2>Redeem</h2>
@@ -191,7 +207,7 @@
       document.getElementById("ticketCount").innerText = tickets;
     }
     function showSection(id) {
-      ["menu","single","threeStage","fiveStage","redeem"].forEach(sec=>{
+      ["menu","single","threeStage","fiveStage","sixStage","redeem"].forEach(sec=>{
         document.getElementById(sec).classList.add("hidden");
       });
       document.getElementById(id).classList.remove("hidden");
@@ -268,9 +284,10 @@
       spinOne(0);
     }
 
-    /* ─── Three draw & Five draw wrappers ─── */
+    /* ─── Three / Five / Six wrappers ─── */
     function showThreeStage(){ multiDraw("threeStage","ts",3); }
     function showFiveStage(){ multiDraw("fiveStage","fs",5); }
+    function showSixStage(){ multiDraw("sixStage","ss",6); }
 
     /* ─── Redeem ─── */
     function redeem(amount){
@@ -298,7 +315,7 @@
       redeemParam = redeemParam.toString().trim().toLowerCase();
       let amt = 0;
 
-      // 支援文字及數字
+      // supports text and number
       if(redeemParam === "small") {
         amt = 1;
       } else if(redeemParam === "medium") {
@@ -311,12 +328,12 @@
 
       if(isNaN(amt) || amt <= 0) return;
 
-      // 顯示 Redeem 畫面並執行
+      // show Redeem screen and execute
       showSection("redeem");
       redeem(amt);
     }
 
-    // initial render + URL 行為
+    // initial render + URL behavior
     updateAllDisplays();
     handleUrlRedeem();
   </script>
