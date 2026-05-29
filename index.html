@@ -99,24 +99,20 @@
       gap: 1em;
     }
 
-    .pomodoro-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5em;
-}
+    .success-btn {
+      background: #25d0a6;
+      color: white;
+      border-radius: 0.4em;
+    }
 
-    
-
-    .small {
-      font-size: 0.55em;
-      color: #ccc;
+    .success-btn:hover {
+      background: gold;
+      color: black;
     }
   </style>
 </head>
 <body>
 
-  <!-- ──────────── Menu ──────────── -->
   <div id="menu" class="menu">
     <h1>Slot Draw</h1>
     <p>You have <strong id="homeTickets">0</strong> ticket(s)</p>
@@ -130,13 +126,11 @@
     <p>Import extra tickets at bottom-right if needed</p>
   </div>
 
-  <!-- ──────────── Import box ──────────── -->
   <div class="import-box">
     Import: <input id="importInput" type="number" placeholder="0" />
     <button onclick="addImportedTickets()">Add</button>
   </div>
 
-  <!-- ──────────── Single Draw ──────────── -->
   <div id="single" class="hidden">
     <h2>Single Draw</h2>
     <div class="slot-flex">
@@ -149,36 +143,23 @@
     <button onclick="showSection('menu')">Back</button>
   </div>
 
-  <!-- ──────────── Three Draw ──────────── -->
   <div id="threeStage" class="hidden">
     <h2>Three Draw</h2>
+
+    <button class="success-btn" onclick="logPomodoroReview()">Pomodoro - review</button>
+
     <div class="reels">
       <div class="reel" id="ts0">💎</div>
       <div class="reel" id="ts1">💎</div>
       <div class="reel" id="ts2">💎</div>
     </div>
-    <div id="threeStageResult" style="margin-top:1em;"></div>
 
-    <!-- New Pomodoro button -->
-    <button onclick="showPomodoroPage()">Pomodoro</button>
+    <div id="threeStageResult" style="margin-top:1em;"></div>
+    <div id="pomodoroReviewResult" style="margin-top:0.5em; color:#25d0a6;"></div>
+
     <button onclick="returnToMenu()">Back</button>
   </div>
 
-  <!-- ──────────── Pomodoro page, migrated from SuccessDaily ──────────── -->
-  <div id="pomodoroPage" class="hidden">
-    <h2>Pomodoro</h2>
-    <p class="small" id="pomodoroTime"></p>
-    <div class="pomodoro-buttons">
-      <button onclick="logPomodoro('Finance')">Finance</button>
-      <button onclick="logPomodoro('Review')">Review</button>
-      <button onclick="logPomodoro('Work')">Work</button>
-      <button onclick="logPomodoro('Layer 4 Use Unknown')">Layer 4 Use Unknown</button>
-      <button onclick="logPomodoroReset()">Reset</button>
-    </div>
-    <button onclick="showSection('threeStage')">Back</button>
-  </div>
-
-  <!-- ──────────── Five Draw ──────────── -->
   <div id="fiveStage" class="hidden">
     <h2>Five Draw</h2>
     <div class="reels">
@@ -192,7 +173,6 @@
     <button onclick="returnToMenu()">Back</button>
   </div>
 
-  <!-- ──────────── Six Draw ──────────── -->
   <div id="sixStage" class="hidden">
     <h2>Six Draw</h2>
     <div class="reels">
@@ -207,7 +187,6 @@
     <button onclick="returnToMenu()">Back</button>
   </div>
 
-  <!-- ──────────── Redeem ──────────── -->
   <div id="redeem" class="hidden">
     <h2>Redeem</h2>
     <p>You have <strong id="ticketCount">0</strong> ticket(s)</p>
@@ -221,52 +200,38 @@
     <button onclick="showSection('menu')">Back</button>
   </div>
 
-  <!-- ──────────── Script ──────────── -->
   <script>
-    /* ─── Initial data ─── */
     let tickets = parseInt(localStorage.getItem("tickets") || "0");
+
     const symbols = ["🍋", "🍒", "🍇", "🍉", "🔔", "⭐", "💎"];
+
     const symbolToTickets = {
-      "🍋": 0,  "🍒": 1,  "🍇": 1,
-      "🍉": 2,  "🔔": 2,
-      "⭐": 3,  "💎": 3
+      "🍋": 0,
+      "🍒": 1,
+      "🍇": 1,
+      "🍉": 2,
+      "🔔": 2,
+      "⭐": 3,
+      "💎": 3
     };
 
-    /* ─── SuccessDaily Pomodoro state ─── */
-    let selectedCategory = '';
-    let selectedSubCategory = '';
-
-    /* ─── Time helpers migrated from SuccessDaily ─── */
-    const fmtTime = () => {
-      const d = new Date();
-      let h = d.getHours(), m = d.getMinutes().toString().padStart(2, '0');
-      const am = h >= 12 ? 'pm' : 'am';
-      h = h % 12 || 12;
-      return `${h}:${m}${am}`;
-    };
-
-    const fmtDate = () => {
-      const now = new Date();
-      return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().split('T')[0];
-    };
-
-    /* ─── UI helpers ─── */
     function updateAllDisplays() {
       document.getElementById("homeTickets").innerText = tickets;
       document.getElementById("ticketCount").innerText = tickets;
     }
 
     function showSection(id) {
-      ["menu","single","threeStage","pomodoroPage","fiveStage","sixStage","redeem"].forEach(sec=>{
+      ["menu", "single", "threeStage", "fiveStage", "sixStage", "redeem"].forEach(sec => {
         document.getElementById(sec).classList.add("hidden");
       });
       document.getElementById(id).classList.remove("hidden");
       updateAllDisplays();
     }
 
-    function returnToMenu(){ showSection("menu"); }
+    function returnToMenu() {
+      showSection("menu");
+    }
 
-    /* ─── Import ─── */
     function addImportedTickets() {
       const val = parseInt(document.getElementById("importInput").value);
       if (!isNaN(val) && val > 0) {
@@ -277,159 +242,178 @@
       }
     }
 
-    /* ─── Single draw ─── */
     function pullSingle() {
       const reel = document.getElementById("singleReel");
       const lever = document.getElementById("lever");
       const result = document.getElementById("singleResult");
+
       result.innerHTML = "";
       lever.classList.add("down");
-      setTimeout(()=>lever.classList.remove("down"),300);
+      setTimeout(() => lever.classList.remove("down"), 300);
 
       let count = 0;
-      const interval = setInterval(()=>{
-        reel.innerText = symbols[Math.floor(Math.random()*symbols.length)];
-        if (++count >= 20){
+      const interval = setInterval(() => {
+        reel.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+
+        if (++count >= 20) {
           clearInterval(interval);
-          const finalSymbol = symbols[Math.floor(Math.random()*symbols.length)];
+
+          const finalSymbol = symbols[Math.floor(Math.random() * symbols.length)];
           reel.innerText = finalSymbol;
+
           const gain = symbolToTickets[finalSymbol];
           tickets += gain;
+
           localStorage.setItem("tickets", tickets);
           result.innerHTML = `You got <strong>${gain}</strong> ticket(s) with ${finalSymbol}`;
           updateAllDisplays();
         }
-      },100);
+      }, 100);
     }
 
-    /* ─── Parametric multi draw ─── */
-    function multiDraw(stageId, reelPrefix, draws){
+    function multiDraw(stageId, reelPrefix, draws) {
       showSection(stageId);
-      const reels = [...Array(draws)].map((_,i)=>document.getElementById(reelPrefix+i));
-      const resultBox = document.getElementById(stageId+"Result");
+
+      const reels = [...Array(draws)].map((_, i) => document.getElementById(reelPrefix + i));
+      const resultBox = document.getElementById(stageId + "Result");
+
       resultBox.innerHTML = "Starting draw...";
       let total = 0;
 
-      function spinOne(index){
-        if(index>=draws){
+      function spinOne(index) {
+        if (index >= draws) {
           localStorage.setItem("tickets", tickets);
           resultBox.innerHTML += `<br><strong>Total: ${total} ticket(s)!</strong>`;
           updateAllDisplays();
           return;
         }
+
         let cnt = 0;
-        const spin = setInterval(()=>{
-          reels[index].innerText = symbols[Math.floor(Math.random()*symbols.length)];
-          if(++cnt>=20){
+        const spin = setInterval(() => {
+          reels[index].innerText = symbols[Math.floor(Math.random() * symbols.length)];
+
+          if (++cnt >= 20) {
             clearInterval(spin);
-            const final = symbols[Math.floor(Math.random()*symbols.length)];
+
+            const final = symbols[Math.floor(Math.random() * symbols.length)];
             reels[index].innerText = final;
+
             const gain = symbolToTickets[final];
             tickets += gain;
             total += gain;
-            resultBox.innerHTML += `<br>Draw ${index+1}: ${final} → +${gain}`;
-            setTimeout(()=>spinOne(index+1),500);
+
+            resultBox.innerHTML += `<br>Draw ${index + 1}: ${final} → +${gain}`;
+            setTimeout(() => spinOne(index + 1), 500);
           }
-        },50);
+        }, 50);
       }
+
       spinOne(0);
     }
 
-    /* ─── Three / Five / Six wrappers ─── */
-    function showThreeStage(){ multiDraw("threeStage","ts",3); }
-    function showFiveStage(){ multiDraw("fiveStage","fs",5); }
-    function showSixStage(){ multiDraw("sixStage","ss",6); }
-
-    /* ─── Pomodoro migrated from SuccessDaily ─── */
-    function showPomodoroPage() {
-      showSection('pomodoroPage');
-      document.getElementById('pomodoroTime').textContent = `${fmtDate()} ${fmtTime()}`;
+    function showThreeStage() {
+      multiDraw("threeStage", "ts", 3);
     }
 
-    function buildEntry(text, forceTags=null) {
-      const date = fmtDate(), time = fmtTime();
-      let tags;
-      if (forceTags !== null) {
-        tags = forceTags;
+    function showFiveStage() {
+      multiDraw("fiveStage", "fs", 5);
+    }
+
+    function showSixStage() {
+      multiDraw("sixStage", "ss", 6);
+    }
+
+    function redeem(amount) {
+      const msg = document.getElementById("redeemResult");
+
+      if (tickets >= amount) {
+        tickets -= amount;
+        localStorage.setItem("tickets", tickets);
+        msg.innerHTML = `Redeemed ${amount} ticket(s)!`;
       } else {
-        const auto = [
-          `#${(selectedCategory || '').toLowerCase()}`,
-          selectedSubCategory ? `#${selectedSubCategory.toLowerCase()}` : ''
-        ].filter(Boolean).join(' ');
-        tags = auto;
+        msg.innerHTML = `Not enough tickets.`;
       }
-      const tagPart = tags ? ` ${tags}` : '';
+
+      updateAllDisplays();
+    }
+
+    function customRedeem() {
+      let v = parseInt(prompt("How many tickets to redeem?"));
+      if (!isNaN(v) && v > 0) redeem(v);
+    }
+
+    function fmtTime() {
+      const d = new Date();
+      let h = d.getHours();
+      let m = d.getMinutes().toString().padStart(2, "0");
+      const am = h >= 12 ? "pm" : "am";
+      h = h % 12 || 12;
+      return `${h}:${m}${am}`;
+    }
+
+    function fmtDate() {
+      const now = new Date();
+      return new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .split("T")[0];
+    }
+
+    function buildSuccessDailyEntry(text, tags) {
+      const date = fmtDate();
+      const time = fmtTime();
+      const tagPart = tags ? ` ${tags}` : "";
       return `[${date}\n${time} ｜ ${text}${tagPart}]`;
     }
 
     function sendToShortcuts(encodedText, opts) {
-      const names = (opts && Array.isArray(opts.shortcuts) && opts.shortcuts.length)
+      const names = opts && Array.isArray(opts.shortcuts) && opts.shortcuts.length
         ? opts.shortcuts
         : ["SaveToSuccessDaily"];
 
       names.forEach((name, idx) => {
         const url = `shortcuts://run-shortcut?name=${encodeURIComponent(name)}&input=text&text=${encodedText}`;
+
         if (idx === 0) {
           window.open(url);
         } else {
-          setTimeout(() => { window.location.href = url; }, 600 * idx);
+          setTimeout(() => {
+            window.location.href = url;
+          }, 600 * idx);
         }
       });
     }
 
-    function logPomodoro(subCategory) {
-      selectedCategory = 'Pomodoro';
-      selectedSubCategory = subCategory;
-      const note = buildEntry('25mins');
-      sendToShortcuts(encodeURIComponent(note));
-      showSection('threeStage');
-    }
+    function logPomodoroReview() {
+      const note = buildSuccessDailyEntry("25mins", "#pomodoro #review");
+      sendToShortcuts(encodeURIComponent(note), {
+        shortcuts: ["SaveToSuccessDaily"]
+      });
 
-    function logPomodoroReset() {
-      selectedCategory = 'Pomodoro';
-      selectedSubCategory = 'Reset';
-      const note = buildEntry('Pomodoro reset');
-      sendToShortcuts(encodeURIComponent(note));
-      showSection('threeStage');
-    }
-
-    /* ─── Redeem ─── */
-    function redeem(amount){
-      const msg = document.getElementById("redeemResult");
-      if(tickets>=amount){
-        tickets -= amount;
-        localStorage.setItem("tickets", tickets);
-        msg.innerHTML = `Redeemed ${amount} ticket(s)!`;
-      }else{
-        msg.innerHTML = `Not enough tickets.`;
+      const box = document.getElementById("pomodoroReviewResult");
+      if (box) {
+        box.innerHTML = "Saved Pomodoro review to SuccessDaily.";
       }
-      updateAllDisplays();
-    }
-    function customRedeem(){
-      let v = parseInt(prompt("How many tickets to redeem?"));
-      if(!isNaN(v) && v>0) redeem(v);
     }
 
-    /* ─── URL auto-redeem ─── */
-    function handleUrlRedeem(){
+    function handleUrlRedeem() {
       const params = new URLSearchParams(window.location.search);
       let redeemParam = params.get("redeem");
-      if(!redeemParam) return;
+      if (!redeemParam) return;
 
       redeemParam = redeemParam.toString().trim().toLowerCase();
       let amt = 0;
 
-      if(redeemParam === "small") {
+      if (redeemParam === "small") {
         amt = 1;
-      } else if(redeemParam === "medium") {
+      } else if (redeemParam === "medium") {
         amt = 20;
-      } else if(redeemParam === "big") {
+      } else if (redeemParam === "big") {
         amt = 100;
       } else {
         amt = parseInt(redeemParam, 10);
       }
 
-      if(isNaN(amt) || amt <= 0) return;
+      if (isNaN(amt) || amt <= 0) return;
 
       showSection("redeem");
       redeem(amt);
