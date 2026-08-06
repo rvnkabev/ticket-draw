@@ -73,17 +73,36 @@ input{font-size:90%;padding:.5em;margin:.5em;width:80%}
   <button onclick="showSection('menu')">Back</button>
 </div>
 
-<div id="threeStage" class="hidden">
-  <h2>Three Draw</h2>
-  <div class="reels">
-    <div class="reel" id="ts0">💎</div><div class="reel" id="ts1">💎</div><div class="reel" id="ts2">💎</div>
-  </div>
-  <div id="threeStageResult"></div>
-  <div id="pomodoroReviewResult" style="color:#25d0a6;"></div>
-  <button class="success-btn" onclick="logPomodoroReview()">Pomodoro - review</button>
-  <button onclick="returnToMenu()">Back</button>
-</div>
+<div id="single" class="hidden">
+  <h2>Single Draw</h2>
 
+  <div class="slot-flex">
+    <div class="reel" id="singleReel">💎</div>
+
+    <div class="lever" id="lever" onclick="pullSingle()">
+      <div class="lever-ball"></div>
+    </div>
+  </div>
+
+  <div id="singleResult"></div>
+
+  <button
+    class="success-btn"
+    onclick="openPomodoroPage()"
+  >
+    Pomodoro Page
+  </button>
+
+  <button onclick="showSection('menu')">
+    Back
+  </button>
+</div>
+function openPomodoroPage() {
+  window.open(
+    "https://rvnkabev.github.io/Success-Daily/?category=Pomodoro",
+    "_blank"
+  );
+}
 <div id="fiveStage" class="hidden">
   <h2>Five Draw</h2>
   <div class="reels">
