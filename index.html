@@ -222,13 +222,6 @@ input {
     Pomodoro - review
   </button>
   
-  <button
-    class="success-btn"
-    onclick="logPomodoro-Account()"
-  >
-    Pomodoro - Account
-  </button>
-  
   <button onclick="showSection('menu')">
     Back
   </button>
@@ -260,7 +253,7 @@ input {
 
   <button
     class="success-btn"
-    onclick="logPomodoro-Account()"
+    onclick="logPomodoroAccount()"
   >
     Pomodoro - Account
   </button>
@@ -790,26 +783,54 @@ function sendToShortcuts(encodedText) {
   window.open(url);
 }
 
-function logPomodoroReview() {
-  const note =
-    buildSuccessDailyEntry(
-      "25mins",
-      "#pomodoro #review"
-    );
+function showPomodoroMessage(button, message) {
+  const section = button.closest(
+    "#single, #threeStage, #fiveStage, #sixStage"
+  );
+
+  if (!section) {
+    return;
+  }
+
+  const resultBox =
+    section.querySelector(".pomodoroResult");
+
+  if (resultBox) {
+    resultBox.innerText = message;
+  }
+}
+
+function logPomodoroReview(button) {
+  const note = buildSuccessDailyEntry(
+    "25mins",
+    "#pomodoro #review"
+  );
 
   sendToShortcuts(
     encodeURIComponent(note)
   );
 
-  document
-    .getElementById(
-      "pomodoroReviewResult"
-    )
-    .innerHTML =
-      "Saved Pomodoro review to SuccessDaily.";
+  showPomodoroMessage(
+    button,
+    "Saved Pomodoro review to SuccessDaily."
+  );
 }
 
-/* -----------------------------
+function logPomodoroAccount(button) {
+  const note = buildSuccessDailyEntry(
+    "25mins",
+    "#pomodoro #account"
+  );
+
+  sendToShortcuts(
+    encodeURIComponent(note)
+  );
+
+  showPomodoroMessage(
+    button,
+    "Saved Pomodoro account to SuccessDaily."
+  );
+}/* -----------------------------
    Reward Page
 ----------------------------- */
 
