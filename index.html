@@ -884,6 +884,21 @@ button,
 );
 }
 
+function logPomodoroEnglish(button) {
+const note = buildSuccessDailyEntry(
+"25mins",
+"#pomodoro #English"
+);
+
+sendToShortcuts(
+encodeURIComponent(note)
+);
+
+showPomodoroMessage(
+button,
+"Opening Apple Shortcut: SaveToSuccessDaily..."
+);
+}
 /* -----------------------------
 Reward Page
 ----------------------------- */
