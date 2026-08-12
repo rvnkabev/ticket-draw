@@ -221,12 +221,6 @@ input {
   >
     Pomodoro - review
   </button>
-    <button
-    class="success-btn"
-    onclick="logPomodoroEnglish()"
-  >
-    Pomodoro - English
-  </button>
   
   <button onclick="showSection('menu')">
     Back
@@ -826,20 +820,6 @@ function logPomodoroAccount(button) {
   const note = buildSuccessDailyEntry(
     "25mins",
     "#pomodoro #account"
-  );
-
-  sendToShortcuts(
-    encodeURIComponent(note)
-  );
-
-  showPomodoroMessage(
-    button,
-    "Saved Pomodoro account to SuccessDaily."
-  );
-  function logPomodoroEnglish(button) {
-  const note = buildSuccessDailyEntry(
-    "25mins",
-    "#pomodoro #English"
   );
 
   sendToShortcuts(
