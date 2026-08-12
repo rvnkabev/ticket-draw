@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,141 +7,157 @@
 
 <style>
 html {
-  font-size: 100%;
+font-size: 100%;
 }
 
 body {
-  background: #111;
-  color: white;
-  font-family: sans-serif;
-  text-align: center;
-  padding: 30px;
+background: #111;
+color: white;
+font-family: sans-serif;
+text-align: center;
+padding: 30px;
 }
 
 .hidden {
-  display: none;
+display: none;
 }
 
 button {
-  font-size: 1rem;
-  padding: 0.5em 1em;
-  margin: 0.5em;
-  background: #444;
-  color: white;
-  border: none;
-  border-radius: 0.3em;
-  cursor: pointer;
+font-size: 1rem;
+padding: 0.5em 1em;
+margin: 0.5em;
+background: #444;
+color: white;
+border: none;
+border-radius: 0.3em;
+cursor: pointer;
 }
 
 button:hover {
-  background: gold;
-  color: black;
+background: gold;
+color: black;
 }
 
 .import-box {
-  position: fixed;
-  bottom: 5px;
-  right: 10px;
-  opacity: 0.3;
-  font-size: 0.4em;
+position: fixed;
+bottom: 5px;
+right: 10px;
+opacity: 0.3;
+font-size: 0.4em;
 }
 
 .import-box input {
-  width: 2em;
-  font-size: 0.4em;
+width: 2em;
+font-size: 0.4em;
 }
 
 .reel {
-  width: 2.8em;
-  height: 2.8em;
-  font-size: 1.5em;
-  background: #222;
-  line-height: 2.8em;
-  border-radius: 0.3em;
-  border: 0.08em solid #666;
+width: 2.8em;
+height: 2.8em;
+font-size: 1.5em;
+background: #222;
+line-height: 2.8em;
+border-radius: 0.3em;
+border: 0.08em solid #666;
 }
 
 .reels {
-  display: flex;
-  justify-content: center;
-  gap: 0.4em;
-  overflow-x: auto;
-  margin-top: 1em;
+display: flex;
+justify-content: center;
+gap: 0.4em;
+overflow-x: auto;
+margin-top: 1em;
 }
 
 .lever {
-  width: 0.8em;
-  height: 3em;
-  background: linear-gradient(to bottom, silver, gray);
-  border-radius: 0.3em;
-  position: relative;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-left: 1em;
+width: 0.8em;
+height: 3em;
+background: linear-gradient(to bottom, silver, gray);
+border-radius: 0.3em;
+position: relative;
+cursor: pointer;
+transition: 0.3s;
+margin-left: 1em;
 }
 
 .lever-ball {
-  position: absolute;
-  bottom: -0.9em;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 1.4em;
-  height: 1.4em;
-  background: red;
-  border-radius: 50%;
-  border: 0.15em solid #fff;
+position: absolute;
+bottom: -0.9em;
+left: 50%;
+transform: translateX(-50%);
+width: 1.4em;
+height: 1.4em;
+background: red;
+border-radius: 50%;
+border: 0.15em solid #fff;
 }
 
 .lever.down {
-  transform: rotate(30deg);
+transform: rotate(30deg);
 }
 
 .slot-flex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1em;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 1em;
 }
 
 .success-btn {
-  background: #25d0a6;
-  color: white;
+background: #25d0a6;
+color: white;
 }
 
 .reward-card {
-  background: #fff;
-  color: #111;
-  border: 1px solid #ddd;
-  border-radius: 14px;
-  padding: 14px;
-  margin: 10px auto;
-  max-width: 680px;
+background: #fff;
+color: #111;
+border: 1px solid #ddd;
+border-radius: 14px;
+padding: 14px;
+margin: 10px auto;
+max-width: 680px;
 }
 
 .reward-actions button {
-  font-size: 70%;
-  padding: 0.3em 0.7em;
+font-size: 70%;
+padding: 0.3em 0.7em;
 }
 
 .primary {
-  background: #7aa2ff;
-  color: #fff;
+background: #7aa2ff;
+color: #fff;
 }
 
 .danger {
-  background: #ff7777;
-  color: #fff;
+background: #ff7777;
+color: #fff;
 }
 
 input {
-  font-size: 90%;
-  padding: 0.5em;
-  margin: 0.5em;
-  width: 80%;
+font-size: 90%;
+padding: 0.5em;
+margin: 0.5em;
+width: 80%;
 }
 
 .small {
-  font-size: 70%;
+font-size: 70%;
+}
+
+/* Pomodoro page - NEW */
+.pomodoro-card {
+background: #222;
+border: 1px solid #555;
+border-radius: 14px;
+padding: 18px;
+margin: 20px auto;
+max-width: 680px;
+}
+
+.pomodoroResult {
+color: #25d0a6;
+margin-top: 10px;
+min-height: 1.4em;
 }
 </style>
 </head>
@@ -151,991 +166,1030 @@ input {
 
 <!-- Main Menu -->
 <div id="menu">
-  <h1>Slot Draw</h1>
+<h1>Slot Draw</h1>
 
-  <p>
-    You have
-    <strong id="homeTickets">0</strong>
-    ticket(s)
-  </p>
+<p>
+You have
+<strong id="homeTickets">0</strong>
+ticket(s)
+</p>
 
-  <button onclick="showSection('single')">
-    Single Draw
-  </button>
+<button onclick="showSection('single')">
+Single Draw
+</button>
 
-  <button onclick="showThreeStage()">
-    Three Draw
-  </button>
+<button onclick="showThreeStage()">
+Three Draw
+</button>
 
-  <button onclick="showFiveStage()">
-    Five Draw
-  </button>
+<button onclick="showFiveStage()">
+Five Draw
+</button>
 
-  <button onclick="showSixStage()">
-    Six Draw
-  </button>
+<button onclick="showSixStage()">
+Six Draw
+</button>
 
-  <button onclick="showSection('redeem')">
-    Redeem
-  </button>
+<button class="success-btn" onclick="showSection('pomodoro')">
+Pomodoro
+</button>
+
+<button onclick="showSection('redeem')">
+Redeem
+</button>
 </div>
 
 <!-- Import Tickets -->
 <div class="import-box">
-  Import:
-  <input id="importInput" type="number" />
+Import:
+<input id="importInput" type="number" />
 
-  <button onclick="addImportedTickets()">
-    Add
-  </button>
+<button onclick="addImportedTickets()">
+Add
+</button>
 </div>
 
 <!-- Single Draw -->
 <div id="single" class="hidden">
-  <h2>Single Draw</h2>
+<h2>Single Draw</h2>
 
-  <div class="slot-flex">
-    <div class="reel" id="singleReel">
-      💎
-    </div>
+<div class="slot-flex">
+<div class="reel" id="singleReel">
+💎
+</div>
 
-    <div
-      class="lever"
-      id="lever"
-      onclick="pullSingle()"
-    >
-      <div class="lever-ball"></div>
-    </div>
-  </div>
+<div
+  class="lever"
+  id="lever"
+  onclick="pullSingle()"
+>
+  <div class="lever-ball"></div>
+</div>
+</div>
 
-  <div id="singleResult"></div>
-  
-  <div
-    id="pomodoroReviewResult"
-    style="color: #25d0a6;"
-  ></div>
+<div id="singleResult"></div>
 
-  <button
-    class="success-btn"
-    onclick="logPomodoroReview()"
-  >
-    Pomodoro - review
-  </button>
-  
-  <button onclick="showSection('menu')">
-    Back
-  </button>
+<button
+class="success-btn"
+onclick="showSection('pomodoro')"
+>
+Pomodoro
+</button>
+
+<button onclick="showSection('menu')">
+Back
+</button>
 </div>
 
 <!-- Three Draw -->
 <div id="threeStage" class="hidden">
-  <h2>Three Draw</h2>
+<h2>Three Draw</h2>
 
-  <div class="reels">
-    <div class="reel" id="ts0">💎</div>
-    <div class="reel" id="ts1">💎</div>
-    <div class="reel" id="ts2">💎</div>
-  </div>
+<div class="reels">
+<div class="reel" id="ts0">💎</div>
+<div class="reel" id="ts1">💎</div>
+<div class="reel" id="ts2">💎</div>
+</div>
 
-  <div id="threeStageResult"></div>
+<div id="threeStageResult"></div>
 
-  <div
-    id="pomodoroReviewResult"
-    style="color: #25d0a6;"
-  ></div>
+<button
+class="success-btn"
+onclick="showSection('pomodoro')"
+>
+Pomodoro
+</button>
 
-  <button
-    class="success-btn"
-    onclick="logPomodoroReview()"
-  >
-    Pomodoro - review
-  </button>
-
-  <button
-    class="success-btn"
-    onclick="logPomodoroAccount()"
-  >
-    Pomodoro - Account
-  </button>
-  
-  <button onclick="returnToMenu()">
-    Back
-  </button>
+<button onclick="returnToMenu()">
+Back
+</button>
 </div>
 
 <!-- Five Draw -->
 <div id="fiveStage" class="hidden">
-  <h2>Five Draw</h2>
+<h2>Five Draw</h2>
 
-  <div class="reels">
-    <div class="reel" id="fs0">💎</div>
-    <div class="reel" id="fs1">💎</div>
-    <div class="reel" id="fs2">💎</div>
-    <div class="reel" id="fs3">💎</div>
-    <div class="reel" id="fs4">💎</div>
-  </div>
+<div class="reels">
+<div class="reel" id="fs0">💎</div>
+<div class="reel" id="fs1">💎</div>
+<div class="reel" id="fs2">💎</div>
+<div class="reel" id="fs3">💎</div>
+<div class="reel" id="fs4">💎</div>
+</div>
 
-  <div id="fiveStageResult"></div>
+<div id="fiveStageResult"></div>
 
-  <button onclick="returnToMenu()">
-    Back
-  </button>
+<button
+class="success-btn"
+onclick="showSection('pomodoro')"
+>
+Pomodoro
+</button>
+
+<button onclick="returnToMenu()">
+Back
+</button>
 </div>
 
 <!-- Six Draw -->
 <div id="sixStage" class="hidden">
-  <h2>Six Draw</h2>
+<h2>Six Draw</h2>
 
-  <div class="reels">
-    <div class="reel" id="ss0">💎</div>
-    <div class="reel" id="ss1">💎</div>
-    <div class="reel" id="ss2">💎</div>
-    <div class="reel" id="ss3">💎</div>
-    <div class="reel" id="ss4">💎</div>
-    <div class="reel" id="ss5">💎</div>
-  </div>
+<div class="reels">
+<div class="reel" id="ss0">💎</div>
+<div class="reel" id="ss1">💎</div>
+<div class="reel" id="ss2">💎</div>
+<div class="reel" id="ss3">💎</div>
+<div class="reel" id="ss4">💎</div>
+<div class="reel" id="ss5">💎</div>
+</div>
 
-  <div id="sixStageResult"></div>
+<div id="sixStageResult"></div>
 
-  <button onclick="returnToMenu()">
-    Back
-  </button>
+<button
+class="success-btn"
+onclick="showSection('pomodoro')"
+>
+Pomodoro
+</button>
+
+<button onclick="returnToMenu()">
+Back
+</button>
+</div>
+
+<!-- Pomodoro Page - NEW -->
+<div id="pomodoro" class="hidden">
+<h2>Pomodoro</h2>
+
+<div class="pomodoro-card">
+<p>Log one completed 25 mins Pomodoro to SuccessDaily.</p>
+
+<button
+class="success-btn"
+onclick="logPomodoroReview(this)"
+>
+Pomodoro - Review
+</button>
+
+<button
+class="success-btn"
+onclick="logPomodoroAccount(this)"
+>
+Pomodoro - Account
+</button>
+
+<button
+class="success-btn"
+onclick="logPomodoroEnglish(this)"
+>
+Pomodoro - English
+</button>
+  
+<div class="pomodoroResult"></div>
+</div>
+
+<button onclick="showSection('menu')">
+Home
+</button>
 </div>
 
 <!-- Redeem -->
 <div id="redeem" class="hidden">
-  <h2>Redeem</h2>
+<h2>Redeem</h2>
 
-  <p>
-    You have
-    <strong id="ticketCount">0</strong>
-    ticket(s)
-  </p>
+<p>
+You have
+<strong id="ticketCount">0</strong>
+ticket(s)
+</p>
 
-  <button onclick="redeem(1)">
-    Small (-1)
-  </button>
+<button onclick="redeem(1)">
+Small (-1)
+</button>
 
-  <button onclick="redeem(5)">
-    -5
-  </button>
+<button onclick="redeem(5)">
+-5
+</button>
 
-  <button onclick="redeem(20)">
-    Medium (-20)
-  </button>
+<button onclick="redeem(20)">
+Medium (-20)
+</button>
 
-  <button onclick="redeem(60)">
-    -60
-  </button>
+<button onclick="redeem(60)">
+-60
+</button>
 
-  <button onclick="redeem(100)">
-    Big (-100)
-  </button>
+<button onclick="redeem(100)">
+Big (-100)
+</button>
 
-  <button onclick="customRedeem()">
-    Custom
-  </button>
+<button onclick="customRedeem()">
+Custom
+</button>
 
-  <br />
+<br />
 
-  <button
-    class="success-btn"
-    onclick="gotoReward()"
-  >
-    Reward Page
-  </button>
+<button
+class="success-btn"
+onclick="gotoReward()"
+>
+Reward Page
+</button>
 
-  <div id="redeemResult"></div>
+<div id="redeemResult"></div>
 
-  <button onclick="showSection('menu')">
-    Back
-  </button>
+<button onclick="showSection('menu')">
+Back
+</button>
 </div>
 
 <!-- Reward Page -->
 <div id="rewardPage" class="hidden">
-  <h2>Reward</h2>
+<h2>Reward</h2>
 
-  <div class="reward-card">
-    <div class="small">
-      Add / Edit Reward
-    </div>
+<div class="reward-card">
+<div class="small">
+Add / Edit Reward
+</div>
 
-    <input
-      id="rewardName"
-      type="text"
-      placeholder="Reward item，例如：美女 video / coffee / game"
-    />
+<input
+  id="rewardName"
+  type="text"
+  placeholder="Reward item，例如：美女 video / coffee / game"
+/>
 
-    <input
-      id="rewardStars"
-      type="number"
-      placeholder="Star number，例如：5 / 10 / 60"
-    />
+<input
+  id="rewardStars"
+  type="number"
+  placeholder="Star number，例如：5 / 10 / 60"
+/>
 
-    <button
-      class="primary"
-      onclick="saveCustomReward()"
-    >
-      Save Reward
-    </button>
+<button
+  class="primary"
+  onclick="saveCustomReward()"
+>
+  Save Reward
+</button>
 
-    <button onclick="clearRewardForm()">
-      Clear
-    </button>
-  </div>
+<button onclick="clearRewardForm()">
+  Clear
+</button>
+</div>
 
-  <div id="rewardList"></div>
+<div id="rewardList"></div>
 
-  <button onclick="showSection('redeem')">
-    Back to Redeem
-  </button>
+<button onclick="showSection('redeem')">
+Back to Redeem
+</button>
 
-  <button onclick="showSection('menu')">
-    Home
-  </button>
+<button onclick="showSection('menu')">
+Home
+</button>
 </div>
 
 <script>
 let tickets = parseInt(
-  localStorage.getItem("tickets") || "0",
-  10
+localStorage.getItem("tickets") || "0",
+10
 );
 
 let editingRewardId = null;
 
 const symbols = [
-  "🍋",
-  "🍒",
-  "🍇",
-  "🍉",
-  "🔔",
-  "⭐",
-  "💎"
+"🍋",
+"🍒",
+"🍇",
+"🍉",
+"🔔",
+"⭐",
+"💎"
 ];
 
 const symbolToTickets = {
-  "🍋": 0,
-  "🍒": 1,
-  "🍇": 1,
-  "🍉": 2,
-  "🔔": 2,
-  "⭐": 3,
-  "💎": 3
+"🍋": 0,
+"🍒": 1,
+"🍇": 1,
+"🍉": 2,
+"🔔": 2,
+"⭐": 3,
+"💎": 3
 };
 
 const STORAGE_KEY = "successDiaryRewards_v1";
 
 const defaultRewards = [
-  {
-    id: "default_1",
-    name: "抱石美女",
-    stars: "60",
-    text: "享受 #抱石美女 60**",
-    locked: true
-  },
-  {
-    id: "default_2",
-    name: "打機老婆（30mins)",
-    stars: "5",
-    text: "打機 #wife 5**",
-    locked: true
-  },
-  {
-    id: "default_3",
-    name: "Beer",
-    stars: "10",
-    text: "飲啤酒 10**",
-    locked: true
-  }
+{
+id: "default_1",
+name: "抱石美女",
+stars: "60",
+text: "享受 #抱石美女 60**",
+locked: true
+},
+{
+id: "default_2",
+name: "打機老婆（30mins)",
+stars: "5",
+text: "打機 #wife 5**",
+locked: true
+},
+{
+id: "default_3",
+name: "Beer",
+stars: "10",
+text: "飲啤酒 10**",
+locked: true
+}
 ];
 
 /* -----------------------------
-   Ticket Display
+Ticket Display
 ----------------------------- */
 
 function updateAllDisplays() {
-  document.getElementById("homeTickets").innerText = tickets;
-  document.getElementById("ticketCount").innerText = tickets;
+document.getElementById("homeTickets").innerText = tickets;
+document.getElementById("ticketCount").innerText = tickets;
 }
 
 /* -----------------------------
-   Page Navigation
+Page Navigation
 ----------------------------- */
 
 function showSection(id) {
-  const sections = [
-    "menu",
-    "single",
-    "threeStage",
-    "fiveStage",
-    "sixStage",
-    "redeem",
-    "rewardPage"
-  ];
+const sections = [
+"menu",
+"single",
+"threeStage",
+"fiveStage",
+"sixStage",
+"pomodoro",
+"redeem",
+"rewardPage"
+];
 
-  sections.forEach(sectionId => {
-    document
-      .getElementById(sectionId)
-      .classList.add("hidden");
-  });
+sections.forEach(sectionId => {
+document
+.getElementById(sectionId)
+.classList.add("hidden");
+});
 
-  document
-    .getElementById(id)
-    .classList.remove("hidden");
+document
+.getElementById(id)
+.classList.remove("hidden");
 
-  updateAllDisplays();
+updateAllDisplays();
 }
 
 function returnToMenu() {
-  showSection("menu");
+showSection("menu");
 }
 
 /* Open Success Daily Pomodoro page */
 
 function openPomodoroPage() {
-  window.open(
-    "https://rvnkabev.github.io/Success-Daily/?category=Pomodoro",
-    "_blank",
-    "noopener,noreferrer"
-  );
+window.open(
+"https://rvnkabev.github.io/Success-Daily/?category=Pomodoro",
+"_blank",
+"noopener,noreferrer"
+);
 }
 
 /* -----------------------------
-   Import Tickets
+Import Tickets
 ----------------------------- */
 
 function addImportedTickets() {
-  const input = document.getElementById("importInput");
-  const val = parseInt(input.value, 10);
+const input = document.getElementById("importInput");
+const val = parseInt(input.value, 10);
 
-  if (!isNaN(val) && val > 0) {
-    tickets += val;
+if (!isNaN(val) && val > 0) {
+tickets += val;
 
-    localStorage.setItem(
-      "tickets",
-      tickets
-    );
+localStorage.setItem(
+  "tickets",
+  tickets
+);
 
-    updateAllDisplays();
-    input.value = "";
-  }
+updateAllDisplays();
+input.value = "";
+}
 }
 
 /* -----------------------------
-   Single Draw
+Single Draw
 ----------------------------- */
 
 function pullSingle() {
-  const reel = document.getElementById("singleReel");
-  const lever = document.getElementById("lever");
-  const result = document.getElementById("singleResult");
+const reel = document.getElementById("singleReel");
+const lever = document.getElementById("lever");
+const result = document.getElementById("singleResult");
 
-  result.innerHTML = "";
+result.innerHTML = "";
 
-  lever.classList.add("down");
+lever.classList.add("down");
 
-  setTimeout(() => {
-    lever.classList.remove("down");
-  }, 300);
+setTimeout(() => {
+lever.classList.remove("down");
+}, 300);
 
-  let count = 0;
+let count = 0;
 
-  const interval = setInterval(() => {
-    const randomSymbol =
+const interval = setInterval(() => {
+const randomSymbol =
+symbols[
+Math.floor(Math.random() * symbols.length)
+];
+
+reel.innerText = randomSymbol;
+
+count++;
+
+if (count >= 20) {
+  clearInterval(interval);
+
+  const finalSymbol =
+    symbols[
+      Math.floor(Math.random() * symbols.length)
+    ];
+
+  reel.innerText = finalSymbol;
+
+  const gain = symbolToTickets[finalSymbol];
+
+  tickets += gain;
+
+  localStorage.setItem(
+    "tickets",
+    tickets
+  );
+
+  result.innerHTML =
+    `You got <strong>${gain}</strong> ticket(s) with ${finalSymbol}`;
+
+  updateAllDisplays();
+}
+}, 100);
+}
+
+/* -----------------------------
+Multiple Draw
+----------------------------- */
+
+function multiDraw(stageId, reelPrefix, draws) {
+showSection(stageId);
+
+const reels = [...Array(draws)].map(
+(_, index) =>
+document.getElementById(
+reelPrefix + index
+)
+);
+
+const resultBox =
+document.getElementById(
+stageId + "Result"
+);
+
+resultBox.innerHTML = "Starting draw...";
+
+let total = 0;
+
+function spinOne(index) {
+if (index >= draws) {
+localStorage.setItem(
+"tickets",
+tickets
+);
+
+  resultBox.innerHTML +=
+    `<br><strong>Total: ${total} ticket(s)!</strong>`;
+
+  updateAllDisplays();
+  return;
+}
+
+let count = 0;
+
+const spin = setInterval(() => {
+  const randomSymbol =
+    symbols[
+      Math.floor(Math.random() * symbols.length)
+    ];
+
+  reels[index].innerText = randomSymbol;
+
+  count++;
+
+  if (count >= 20) {
+    clearInterval(spin);
+
+    const finalSymbol =
       symbols[
         Math.floor(Math.random() * symbols.length)
       ];
 
-    reel.innerText = randomSymbol;
+    reels[index].innerText = finalSymbol;
 
-    count++;
+    const gain =
+      symbolToTickets[finalSymbol];
 
-    if (count >= 20) {
-      clearInterval(interval);
+    tickets += gain;
+    total += gain;
 
-      const finalSymbol =
-        symbols[
-          Math.floor(Math.random() * symbols.length)
-        ];
+    resultBox.innerHTML +=
+      `<br>Draw ${index + 1}: ${finalSymbol} → +${gain}`;
 
-      reel.innerText = finalSymbol;
-
-      const gain = symbolToTickets[finalSymbol];
-
-      tickets += gain;
-
-      localStorage.setItem(
-        "tickets",
-        tickets
-      );
-
-      result.innerHTML =
-        `You got <strong>${gain}</strong> ticket(s) with ${finalSymbol}`;
-
-      updateAllDisplays();
-    }
-  }, 100);
+    setTimeout(() => {
+      spinOne(index + 1);
+    }, 500);
+  }
+}, 50);
 }
 
-/* -----------------------------
-   Multiple Draw
------------------------------ */
-
-function multiDraw(stageId, reelPrefix, draws) {
-  showSection(stageId);
-
-  const reels = [...Array(draws)].map(
-    (_, index) =>
-      document.getElementById(
-        reelPrefix + index
-      )
-  );
-
-  const resultBox =
-    document.getElementById(
-      stageId + "Result"
-    );
-
-  resultBox.innerHTML = "Starting draw...";
-
-  let total = 0;
-
-  function spinOne(index) {
-    if (index >= draws) {
-      localStorage.setItem(
-        "tickets",
-        tickets
-      );
-
-      resultBox.innerHTML +=
-        `<br><strong>Total: ${total} ticket(s)!</strong>`;
-
-      updateAllDisplays();
-      return;
-    }
-
-    let count = 0;
-
-    const spin = setInterval(() => {
-      const randomSymbol =
-        symbols[
-          Math.floor(Math.random() * symbols.length)
-        ];
-
-      reels[index].innerText = randomSymbol;
-
-      count++;
-
-      if (count >= 20) {
-        clearInterval(spin);
-
-        const finalSymbol =
-          symbols[
-            Math.floor(Math.random() * symbols.length)
-          ];
-
-        reels[index].innerText = finalSymbol;
-
-        const gain =
-          symbolToTickets[finalSymbol];
-
-        tickets += gain;
-        total += gain;
-
-        resultBox.innerHTML +=
-          `<br>Draw ${index + 1}: ${finalSymbol} → +${gain}`;
-
-        setTimeout(() => {
-          spinOne(index + 1);
-        }, 500);
-      }
-    }, 50);
-  }
-
-  spinOne(0);
+spinOne(0);
 }
 
 function showThreeStage() {
-  multiDraw(
-    "threeStage",
-    "ts",
-    3
-  );
+multiDraw(
+"threeStage",
+"ts",
+3
+);
 }
 
 function showFiveStage() {
-  multiDraw(
-    "fiveStage",
-    "fs",
-    5
-  );
+multiDraw(
+"fiveStage",
+"fs",
+5
+);
 }
 
 function showSixStage() {
-  multiDraw(
-    "sixStage",
-    "ss",
-    6
-  );
+multiDraw(
+"sixStage",
+"ss",
+6
+);
 }
 
 /* -----------------------------
-   Redeem Tickets
+Redeem Tickets
 ----------------------------- */
 
 function redeem(amount) {
-  const msg =
-    document.getElementById(
-      "redeemResult"
-    );
+const msg =
+document.getElementById(
+"redeemResult"
+);
 
-  if (tickets >= amount) {
-    tickets -= amount;
+if (tickets >= amount) {
+tickets -= amount;
 
-    localStorage.setItem(
-      "tickets",
-      tickets
-    );
+localStorage.setItem(
+  "tickets",
+  tickets
+);
 
-    msg.innerHTML =
-      `Redeemed ${amount} ticket(s)!`;
-  } else {
-    msg.innerHTML =
-      "Not enough tickets.";
-  }
+msg.innerHTML =
+  `Redeemed ${amount} ticket(s)!`;
 
-  updateAllDisplays();
+} else {
+msg.innerHTML =
+"Not enough tickets.";
+}
+
+updateAllDisplays();
 }
 
 function customRedeem() {
-  const value = parseInt(
-    prompt("How many tickets to redeem?"),
-    10
-  );
+const value = parseInt(
+prompt("How many tickets to redeem?"),
+10
+);
 
-  if (!isNaN(value) && value > 0) {
-    redeem(value);
-  }
+if (!isNaN(value) && value > 0) {
+redeem(value);
+}
 }
 
 /* -----------------------------
-   Date and Time
+Date and Time
 ----------------------------- */
 
 function fmtTime() {
-  const date = new Date();
+const date = new Date();
 
-  let hour = date.getHours();
+let hour = date.getHours();
 
-  const minute =
-    date
-      .getMinutes()
-      .toString()
-      .padStart(2, "0");
+const minute =
+date
+.getMinutes()
+.toString()
+.padStart(2, "0");
 
-  const amPm =
-    hour >= 12
-      ? "pm"
-      : "am";
+const amPm =
+hour >= 12
+? "pm"
+: "am";
 
-  hour = hour % 12 || 12;
+hour = hour % 12 || 12;
 
-  return `${hour}:${minute}${amPm}`;
+return `${hour}:${minute}${amPm}`;
 }
 
 function fmtDate() {
-  const now = new Date();
+const now = new Date();
 
-  const localDate = new Date(
-    now.getTime() -
-    now.getTimezoneOffset() * 60000
-  );
+const localDate = new Date(
+now.getTime() -
+now.getTimezoneOffset() * 60000
+);
 
-  return localDate
-    .toISOString()
-    .split("T")[0];
+return localDate
+.toISOString()
+.split("T")[0];
 }
 
 function buildSuccessDailyEntry(text, tags) {
-  const tagPart =
-    tags
-      ? ` ${tags}`
-      : "";
+const tagPart =
+tags
+? ` ${tags}`
+: "";
 
-  return `[${fmtDate()}
+return `[${fmtDate()}
 ${fmtTime()} ｜ ${text}${tagPart}]`;
 }
 
 /* -----------------------------
-   Apple Shortcuts
+Apple Shortcuts
 ----------------------------- */
 
 function sendToShortcuts(encodedText) {
-  const shortcutName =
-    encodeURIComponent(
-      "SaveToSuccessDaily"
-    );
+const shortcutName =
+encodeURIComponent(
+"SaveToSuccessDaily"
+);
 
-  const url =
-    `shortcuts://run-shortcut?name=${shortcutName}&input=text&text=${encodedText}`;
+const url =
+`shortcuts://run-shortcut?name=${shortcutName}&input=text&text=${encodedText}`;
 
-  window.open(url);
+window.location.href = url;
 }
 
 function showPomodoroMessage(button, message) {
-  const section = button.closest(
-    "#single, #threeStage, #fiveStage, #sixStage"
-  );
+const section = button.closest("#pomodoro");
 
-  if (!section) {
-    return;
-  }
+if (!section) {
+return;
+}
 
-  const resultBox =
-    section.querySelector(".pomodoroResult");
+const resultBox =
+section.querySelector(".pomodoroResult");
 
-  if (resultBox) {
-    resultBox.innerText = message;
-  }
+if (resultBox) {
+resultBox.innerText = message;
+}
 }
 
 function logPomodoroReview(button) {
-  const note = buildSuccessDailyEntry(
-    "25mins",
-    "#pomodoro #review"
-  );
+const note = buildSuccessDailyEntry(
+"25mins",
+"#pomodoro #review"
+);
 
-  sendToShortcuts(
-    encodeURIComponent(note)
-  );
+sendToShortcuts(
+encodeURIComponent(note)
+);
 
-  showPomodoroMessage(
-    button,
-    "Saved Pomodoro review to SuccessDaily."
-  );
+showPomodoroMessage(
+button,
+"Opening Apple Shortcut: SaveToSuccessDaily..."
+);
 }
 
 function logPomodoroAccount(button) {
-  const note = buildSuccessDailyEntry(
-    "25mins",
-    "#pomodoro #account"
-  );
+const note = buildSuccessDailyEntry(
+"25mins",
+"#pomodoro #account"
+);
 
-  sendToShortcuts(
-    encodeURIComponent(note)
-  );
+sendToShortcuts(
+encodeURIComponent(note)
+);
 
-  showPomodoroMessage(
-    button,
-    "Saved Pomodoro account to SuccessDaily."
-  );
-}/* -----------------------------
-   Reward Page
+showPomodoroMessage(
+button,
+"Opening Apple Shortcut: SaveToSuccessDaily..."
+);
+}
+
+/* -----------------------------
+Reward Page
 ----------------------------- */
 
 function gotoReward() {
-  showSection("rewardPage");
-  renderRewards();
+showSection("rewardPage");
+renderRewards();
 }
 
 function getCustomRewards() {
-  const saved =
-    localStorage.getItem(
-      STORAGE_KEY
-    );
+const saved =
+localStorage.getItem(
+STORAGE_KEY
+);
 
-  try {
-    return saved
-      ? JSON.parse(saved)
-      : [];
-  } catch (error) {
-    return [];
-  }
+try {
+return saved
+? JSON.parse(saved)
+: [];
+} catch (error) {
+return [];
+}
 }
 
 function saveRewards(customRewards) {
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(customRewards)
-  );
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(customRewards)
+);
 }
 
 function loadRewards() {
-  return [
-    ...defaultRewards,
-    ...getCustomRewards()
-  ];
+return [
+...defaultRewards,
+...getCustomRewards()
+];
 }
 
 function renderRewards() {
-  const list =
-    document.getElementById(
-      "rewardList"
-    );
+const list =
+document.getElementById(
+"rewardList"
+);
 
-  list.innerHTML = "";
+list.innerHTML = "";
 
-  loadRewards().forEach(reward => {
-    const div =
-      document.createElement("div");
+loadRewards().forEach(reward => {
+const div =
+document.createElement("div");
 
-    div.className = "reward-card";
+div.className = "reward-card";
 
-    div.innerHTML = `
-      <div>
-        <strong>
-          ${escapeHTML(reward.name)}
-        </strong>
-      </div>
+div.innerHTML = `
+  <div>
+    <strong>
+      ${escapeHTML(reward.name)}
+    </strong>
+  </div>
 
-      <div class="small">
-        ${escapeHTML(reward.stars)} **
-      </div>
+  <div class="small">
+    ${escapeHTML(reward.stars)} **
+  </div>
 
-      <div class="reward-actions">
-        <button
-          class="primary"
-          onclick="logReward('${reward.id}')"
-        >
-          Log
-        </button>
+  <div class="reward-actions">
+    <button
+      class="primary"
+      onclick="logReward('${reward.id}')"
+    >
+      Log
+    </button>
 
-        ${
-          reward.locked
-            ? ""
-            : `
-              <button
-                onclick="editReward('${reward.id}')"
-              >
-                Edit
-              </button>
+    ${
+      reward.locked
+        ? ""
+        : `
+          <button
+            onclick="editReward('${reward.id}')"
+          >
+            Edit
+          </button>
 
-              <button
-                class="danger"
-                onclick="deleteReward('${reward.id}')"
-              >
-                Delete
-              </button>
-            `
-        }
-      </div>
-    `;
+          <button
+            class="danger"
+            onclick="deleteReward('${reward.id}')"
+          >
+            Delete
+          </button>
+        `
+    }
+  </div>
+`;
 
-    list.appendChild(div);
-  });
+list.appendChild(div);
+});
 }
 
 function saveCustomReward() {
-  const name =
-    document
-      .getElementById("rewardName")
-      .value
-      .trim();
+const name =
+document
+.getElementById("rewardName")
+.value
+.trim();
 
-  const stars =
-    document
-      .getElementById("rewardStars")
-      .value
-      .trim();
+const stars =
+document
+.getElementById("rewardStars")
+.value
+.trim();
 
-  if (!name) {
-    alert(
-      "Please enter reward item"
-    );
-    return;
-  }
+if (!name) {
+alert(
+"Please enter reward item"
+);
+return;
+}
 
-  if (
-    !stars ||
-    isNaN(Number(stars))
-  ) {
-    alert(
-      "Please enter star number"
-    );
-    return;
-  }
+if (
+!stars ||
+isNaN(Number(stars))
+) {
+alert(
+"Please enter star number"
+);
+return;
+}
 
-  let custom =
-    getCustomRewards();
+let custom =
+getCustomRewards();
 
-  if (editingRewardId) {
-    custom = custom.map(reward =>
-      reward.id === editingRewardId
-        ? {
-            ...reward,
-            name,
-            stars,
-            text: `${name} ${stars}**`
-          }
-        : reward
-    );
-  } else {
-    custom.push({
-      id: "custom_" + Date.now(),
-      name,
-      stars,
-      text: `${name} ${stars}**`,
-      locked: false
-    });
-  }
+if (editingRewardId) {
+custom = custom.map(reward =>
+reward.id === editingRewardId
+? {
+...reward,
+name,
+stars,
+text: `${name} ${stars}**`
+}
+: reward
+);
+} else {
+custom.push({
+id: "custom_" + Date.now(),
+name,
+stars,
+text: `${name} ${stars}**`,
+locked: false
+});
+}
 
-  saveRewards(custom);
-  clearRewardForm();
-  renderRewards();
+saveRewards(custom);
+clearRewardForm();
+renderRewards();
 }
 
 function editReward(id) {
-  const reward =
-    getCustomRewards().find(
-      item => item.id === id
-    );
+const reward =
+getCustomRewards().find(
+item => item.id === id
+);
 
-  if (!reward) {
-    return;
-  }
+if (!reward) {
+return;
+}
 
-  editingRewardId = id;
+editingRewardId = id;
 
-  document
-    .getElementById(
-      "rewardName"
-    )
-    .value = reward.name;
+document
+.getElementById(
+"rewardName"
+)
+.value = reward.name;
 
-  document
-    .getElementById(
-      "rewardStars"
-    )
-    .value = reward.stars;
+document
+.getElementById(
+"rewardStars"
+)
+.value = reward.stars;
 }
 
 function deleteReward(id) {
-  if (
-    !confirm(
-      "Delete this reward?"
-    )
-  ) {
-    return;
-  }
+if (
+!confirm(
+"Delete this reward?"
+)
+) {
+return;
+}
 
-  const custom =
-    getCustomRewards().filter(
-      reward => reward.id !== id
-    );
+const custom =
+getCustomRewards().filter(
+reward => reward.id !== id
+);
 
-  saveRewards(custom);
-  clearRewardForm();
-  renderRewards();
+saveRewards(custom);
+clearRewardForm();
+renderRewards();
 }
 
 function clearRewardForm() {
-  editingRewardId = null;
+editingRewardId = null;
 
-  document
-    .getElementById(
-      "rewardName"
-    )
-    .value = "";
+document
+.getElementById(
+"rewardName"
+)
+.value = "";
 
-  document
-    .getElementById(
-      "rewardStars"
-    )
-    .value = "";
+document
+.getElementById(
+"rewardStars"
+)
+.value = "";
 }
 
 function logReward(id) {
-  const reward =
-    loadRewards().find(
-      item => item.id === id
-    );
+const reward =
+loadRewards().find(
+item => item.id === id
+);
 
-  if (!reward) {
-    return;
-  }
+if (!reward) {
+return;
+}
 
-  const note =
-    buildSuccessDailyEntry(
-      reward.text,
-      ""
-    );
+const note =
+buildSuccessDailyEntry(
+reward.text,
+""
+);
 
-  sendToShortcuts(
-    encodeURIComponent(note)
-  );
+sendToShortcuts(
+encodeURIComponent(note)
+);
 
-  showSection("redeem");
+showSection("redeem");
 }
 
 function escapeHTML(value) {
-  return String(value).replace(
-    /[&<>"']/g,
-    character => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    }[character])
-  );
+return String(value).replace(
+/[&<>"']/g,
+character => ({
+"&": "&amp;",
+"<": "&lt;",
+">": "&gt;",
+'"': "&quot;",
+"'": "&#039;"
+}[character])
+);
 }
 
 /* -----------------------------
-   URL Redeem Support
+URL Redeem Support
 ----------------------------- */
 
 function handleUrlRedeem() {
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
+const params =
+new URLSearchParams(
+window.location.search
+);
 
-  let redeemParam =
-    params.get("redeem");
+let redeemParam =
+params.get("redeem");
 
-  if (!redeemParam) {
-    return;
-  }
+if (!redeemParam) {
+return;
+}
 
-  redeemParam =
-    redeemParam
-      .toString()
-      .trim()
-      .toLowerCase();
+redeemParam =
+redeemParam
+.toString()
+.trim()
+.toLowerCase();
 
-  let amount = 0;
+let amount = 0;
 
-  if (redeemParam === "small") {
-    amount = 1;
-  } else if (
-    redeemParam === "medium"
-  ) {
-    amount = 20;
-  } else if (
-    redeemParam === "big"
-  ) {
-    amount = 100;
-  } else {
-    amount = parseInt(
-      redeemParam,
-      10
-    );
-  }
+if (redeemParam === "small") {
+amount = 1;
+} else if (
+redeemParam === "medium"
+) {
+amount = 20;
+} else if (
+redeemParam === "big"
+) {
+amount = 100;
+} else {
+amount = parseInt(
+redeemParam,
+10
+);
+}
 
-  if (
-    isNaN(amount) ||
-    amount <= 0
-  ) {
-    return;
-  }
+if (
+isNaN(amount) ||
+amount <= 0
+) {
+return;
+}
 
-  showSection("redeem");
-  redeem(amount);
+showSection("redeem");
+redeem(amount);
 }
 
 /* -----------------------------
-   Initial Load
+Initial Load
 ----------------------------- */
 
 updateAllDisplays();
